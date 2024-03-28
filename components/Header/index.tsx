@@ -8,6 +8,7 @@ const HeaderStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 10px;
   .title {
     color: var(--Brand-Color, #2c2310);
     font-family: 'Pretendard';

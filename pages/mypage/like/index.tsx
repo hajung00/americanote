@@ -1,21 +1,22 @@
-"use client";
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
+'use client';
+import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 // import components
-import ContentsLayout from "../../../components/ContentsLayout";
-import Footer from "../../../components/Footer";
-import Header from "../../../components/Header";
-import Layout from "../../../components/Layout";
-import HorizontalCard from "../../../components/HorizontalCard";
-import StoreDetailModal from "../../../components/StoreDetailModal";
+import ContentsLayout from '../../../components/ContentsLayout';
+import Footer from '../../../components/Footer';
+import Header from '../../../components/Header';
+import Layout from '../../../components/Layout';
+import HorizontalCard from '../../../components/HorizontalCard';
+import StoreDetailModal from '../../../components/StoreDetailModal';
 
 // import svg
-import Left from "../../../public/assets/left.svg";
-import StrengthSVG from "../../../public/assets/strength.svg";
-import ScentSVG from "../../../public/assets/scent.svg";
-import AciditySVG from "../../../public/assets/acidity.svg";
+import Left from '../../../public/assets/left.svg';
+import StrengthSVG from '../../../public/assets/strength.svg';
+import ScentSVG from '../../../public/assets/scent.svg';
+import AciditySVG from '../../../public/assets/acidity.svg';
+import { getCookieValue } from '../../../func/getCookieValue';
 
 const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -41,14 +42,14 @@ const PageTitle = styled.div`
   padding: 0 16px;
   position: relative;
   color: var(--Brand-Color, #2c2310);
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-size: 22px;
   font-weight: 600;
   margin-top: 57px;
   margin-bottom: 29px;
 
   &::after {
-    content: "";
+    content: '';
     display: block;
     height: 1px;
     background: #d8c6b7;
@@ -80,7 +81,7 @@ const NonLikeStoreStyles = styled.div`
   }
 
   .description {
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 20px;
     font-weight: 500;
     margin-top: 18px;
@@ -91,7 +92,7 @@ const NonLikeStoreStyles = styled.div`
     border-radius: 8px;
     background: #5d4c21;
     color: #fff;
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 16px;
     font-weight: 600;
     padding: 14px 93px;
@@ -101,24 +102,27 @@ const NonLikeStoreStyles = styled.div`
   }
 `;
 
-const Like = () => {
+interface Props {
+  user: string;
+  likeStores: boolean; // 나중에는 좋아요한 카페 정보
+}
+const Like = ({ user, likeStores }: Props) => {
   const router = useRouter();
 
-  const [selectStore, setSelectStore] = useState("");
+  const [selectStore, setSelectStore] = useState('');
   const [storeDetailModal, setStoreDetailModal] = useState(false);
   const onClickStore = useCallback((name: string) => {
-    console.log("click");
+    console.log('click');
     setStoreDetailModal((prev) => !prev);
     setSelectStore(name);
   }, []);
 
   const onClosedModal = useCallback(() => {
-    console.log("closed");
+    console.log('closed');
     setStoreDetailModal((prev) => !prev);
   }, []);
 
-  const likeStore = true;
-
+  console.log(user, likeStores);
   return (
     <Layout>
       <ContentsLayout>
@@ -127,26 +131,26 @@ const Like = () => {
             <Left
               width={36}
               height={36}
-              alt={"left"}
+              alt={'left'}
               onClick={() => {
                 router.back();
               }}
-              style={{ cursor: "pointer", transform: "translateX(-10px)" }}
+              style={{ cursor: 'pointer', transform: 'translateX(-10px)' }}
             />
           </Header>
           <PageWrapper>
             <PageTitle>좋아요 누른 카페</PageTitle>
             <PageContent>
-              {likeStore ? (
+              {likeStores ? (
                 <HorizontalCard onClick={onClickStore} />
               ) : (
                 <NonLikeStoreStyles>
-                  <div className="svg-wrapper">
-                    <StrengthSVG width={50} height={50} alt={"strength"} />
-                    <ScentSVG width={50} height={50} alt={"scent"} />
-                    <AciditySVG width={50} height={50} alt={"acidity"} />
+                  <div className='svg-wrapper'>
+                    <StrengthSVG width={50} height={50} alt={'strength'} />
+                    <ScentSVG width={50} height={50} alt={'scent'} />
+                    <AciditySVG width={50} height={50} alt={'acidity'} />
                   </div>
-                  <div className="description">
+                  <div className='description'>
                     좋아요를 누른 카페가 없어요.
                     <br />
                     관심 있는 카페를 찾고 저장해보세요!
@@ -167,13 +171,19 @@ const Like = () => {
 };
 
 export const getServerSideProps = async (context: any) => {
-  const cookie = context.req ? context.req.headers.cookie : "";
+  const cookie = context.req ? context.req.headers.cookie : '';
 
-  console.log("like");
-  // 토큰이 있으면 페이지에 전달
+  const user = getCookieValue(cookie, 'token');
+
+  console.log('like', user);
+
+  // 유저가 좋아요 누른 카페 정보 api
+  const likeStores = true;
+
   return {
     props: {
-      cookie,
+      user,
+      likeStores,
     },
   };
 };
