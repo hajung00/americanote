@@ -1,29 +1,33 @@
-"use client";
-import React, { useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
-import useSWR from "swr";
-import { CURRENT_STORE_KEY } from "../../hooks/useCurrentStore";
-import ScrollContainer from "react-indiana-drag-scroll";
-import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
+'use client';
+import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import useSWR from 'swr';
+import { CURRENT_STORE_KEY } from '../../hooks/useCurrentStore';
+import ScrollContainer from 'react-indiana-drag-scroll';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 
 // import components
-import ContentsLayout from "../../components/ContentsLayout";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Layout from "../../components/Layout";
-import MapSection from "../../components/MapSection";
-import StoreDetailModal from "../../components/StoreDetailModal";
-import FilterModal from "../../components/FilterModal";
+import ContentsLayout from '../../components/ContentsLayout';
+import Footer from '../../components/Footer';
+import Header from '../../components/Header';
+import Layout from '../../components/Layout';
+import MapSection from '../../components/MapSection';
+import StoreDetailModal from '../../components/StoreDetailModal';
+import FilterModal from '../../components/FilterModal';
 
 // import svg
-import StrengthSVG from "../../public/assets/strength.svg";
-import ScentSVG from "../../public/assets/scent.svg";
-import AciditySVG from "../../public/assets/acidity.svg";
-import SearchSVG from "../../public/assets/search.svg";
-import ArrowSVG from "../../public/assets/arrow_down.svg";
-import FilterSVG from "../../public/assets/filter.svg";
-import XSVG from "../../public/assets/x.svg";
+import StrengthSVG from '../../public/assets/strength.svg';
+import ScentSVG from '../../public/assets/scent.svg';
+import AciditySVG from '../../public/assets/acidity.svg';
+import SearchSVG from '../../public/assets/search.svg';
+import ArrowSVG from '../../public/assets/arrow_down.svg';
+import FilterSVG from '../../public/assets/filter.svg';
+import XSVG from '../../public/assets/x.svg';
+import useStores from '../../hooks/useStores';
+import { getAllStoreAPI } from '../../api/store';
+import { Store } from '../../types/store';
+import { getCookieValue } from '../../func/getCookieValue';
 
 const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -44,7 +48,7 @@ const PageWrapper = styled.div`
   }
 
   // naver 로고 제거
-  img[alt~="NAVER"] {
+  img[alt~='NAVER'] {
     display: none !important;
   }
 `;
@@ -56,7 +60,7 @@ const HeaderContent = styled.div`
 
   .title {
     color: #2c2310;
-    font-family: "Montserrat";
+    font-family: 'Montserrat';
     font-size: 26px;
     font-weight: 600;
     line-height: 26px;
@@ -96,7 +100,7 @@ const FilterSection = styled.div`
       align-items: center;
       gap: 4px;
       color: var(--Brand-Color, #2c2310);
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
@@ -125,8 +129,19 @@ const FilterSection = styled.div`
   }
 `;
 
-const Search = () => {
+interface Props {
+  user: string;
+  stores: Store[];
+}
+
+const Search = ({ user, stores }: Props) => {
   const router = useRouter();
+  const { initializeStores } = useStores();
+
+  useEffect(() => {
+    initializeStores(stores);
+  }, [initializeStores, stores]);
+
   const { data: current } = useSWR(CURRENT_STORE_KEY);
 
   const [storeDetailModal, setStoreDetailModal] = useState(false);
@@ -164,7 +179,7 @@ const Search = () => {
 
   useEffect(() => {
     // 필터에 해당하는 매장 다시 요청
-    console.log("필터", price, scent, strength, acidity);
+    console.log('필터', price, scent, strength, acidity);
   }, [price, scent, strength, acidity]);
 
   return (
@@ -172,21 +187,21 @@ const Search = () => {
       <ContentsLayout>
         <Header>
           <HeaderContent>
-            <div className="title">Americanote</div>
-            <div className="svg-wrapper">
-              <StrengthSVG width={24} height={24} alt={"strength"} />
-              <ScentSVG width={24} height={24} alt={"scent"} />
-              <AciditySVG width={24} height={24} alt={"acidity"} />
+            <div className='title'>Americanote</div>
+            <div className='svg-wrapper'>
+              <StrengthSVG width={24} height={24} alt={'strength'} />
+              <ScentSVG width={24} height={24} alt={'scent'} />
+              <AciditySVG width={24} height={24} alt={'acidity'} />
             </div>
           </HeaderContent>
           <div>
             <SearchSVG
               width={24}
               height={24}
-              alt={"search"}
-              className={"search"}
+              alt={'search'}
+              className={'search'}
               onClick={() => {
-                router.push("/search/search-store");
+                router.push('/search/search-store');
               }}
             />
           </div>
@@ -194,119 +209,119 @@ const Search = () => {
         <PageWrapper>
           <MapSection />
           <FilterSection>
-            <ScrollContainer className="filter-item-wrapper">
+            <ScrollContainer className='filter-item-wrapper'>
               {/* 가격 */}
               {price ? (
                 <div
-                  className="filter-item select"
+                  className='filter-item select'
                   onClick={filterModalHandler}
                 >
                   {price}
                   <XSVG
                     width={24}
                     height={24}
-                    alt={"x"}
-                    color={"#fff"}
+                    alt={'x'}
+                    color={'#fff'}
                     onClick={(e: any) => {
                       stopPropagation(e);
-                      setPrice("");
+                      setPrice('');
                     }}
                   />
                 </div>
               ) : (
-                <div className="filter-item" onClick={filterModalHandler}>
+                <div className='filter-item' onClick={filterModalHandler}>
                   가격
-                  <ArrowSVG width={24} height={24} alt={"arrow"} />
+                  <ArrowSVG width={24} height={24} alt={'arrow'} />
                 </div>
               )}
 
               {/* 향 */}
               {scent.length !== 0 ? (
                 <div
-                  className="filter-item select"
+                  className='filter-item select'
                   onClick={filterModalHandler}
                 >
-                  {scent.join(", ")}
+                  {scent.join(', ')}
                   <XSVG
                     width={24}
                     height={24}
-                    alt={"x"}
-                    color={"#fff"}
+                    alt={'x'}
+                    color={'#fff'}
                     onClick={(e: any) => {
                       stopPropagation(e);
-                      setScent("");
+                      setScent('');
                     }}
                   />
                 </div>
               ) : (
-                <div className="filter-item" onClick={filterModalHandler}>
+                <div className='filter-item' onClick={filterModalHandler}>
                   향
-                  <ArrowSVG width={24} height={24} alt={"arrow"} />
+                  <ArrowSVG width={24} height={24} alt={'arrow'} />
                 </div>
               )}
 
               {/* 강도 */}
               {strength ? (
                 <div
-                  className="filter-item select"
+                  className='filter-item select'
                   onClick={filterModalHandler}
                 >
                   {strength}
                   <XSVG
                     width={24}
                     height={24}
-                    alt={"x"}
-                    color={"#fff"}
+                    alt={'x'}
+                    color={'#fff'}
                     onClick={(e: any) => {
                       stopPropagation(e);
-                      setStrength("");
+                      setStrength('');
                     }}
                   />
                 </div>
               ) : (
-                <div className="filter-item" onClick={filterModalHandler}>
-                  강도 <ArrowSVG width={24} height={24} alt={"arrow"} />
+                <div className='filter-item' onClick={filterModalHandler}>
+                  강도 <ArrowSVG width={24} height={24} alt={'arrow'} />
                 </div>
               )}
 
               {/* 산미 */}
               {acidity ? (
                 <div
-                  className="filter-item select"
+                  className='filter-item select'
                   onClick={filterModalHandler}
                 >
                   {acidity}
                   <XSVG
                     width={24}
                     height={24}
-                    alt={"x"}
-                    color={"#fff"}
+                    alt={'x'}
+                    color={'#fff'}
                     onClick={(e: any) => {
                       stopPropagation(e);
-                      setAcidity("");
+                      setAcidity('');
                     }}
                   />
                 </div>
               ) : (
-                <div className="filter-item" onClick={filterModalHandler}>
-                  산미 <ArrowSVG width={24} height={24} alt={"arrow"} />
+                <div className='filter-item' onClick={filterModalHandler}>
+                  산미 <ArrowSVG width={24} height={24} alt={'arrow'} />
                 </div>
               )}
             </ScrollContainer>
             <div
               className={`filter-icon ${
-                (price || scent.length !== 0 || strength || acidity) && "color"
+                (price || scent.length !== 0 || strength || acidity) && 'color'
               }`}
               onClick={filterModalHandler}
             >
               <FilterSVG
                 width={24}
                 height={24}
-                alt={"filter"}
+                alt={'filter'}
                 color={`${
                   price || scent.length !== 0 || strength || acidity
-                    ? "#5D4C21"
-                    : "#CCCCCC"
+                    ? '#5D4C21'
+                    : '#CCCCCC'
                 }`}
               />
             </div>
@@ -315,7 +330,8 @@ const Search = () => {
       </ContentsLayout>
       {storeDetailModal && (
         <StoreDetailModal
-          name={current.characteristic}
+          id={current.id}
+          user={user}
           onClosed={onClosedDetailModal}
         />
       )}
@@ -337,13 +353,15 @@ const Search = () => {
 };
 
 export const getServerSideProps = async (context: any) => {
-  const cookie = context.req ? context.req.headers.cookie : "";
-
-  console.log("search");
+  const cookie = context.req ? context.req.headers.cookie : '';
+  const stores = await getAllStoreAPI();
+  const user = getCookieValue(cookie, 'token');
+  console.log('search');
   // 토큰이 있으면 페이지에 전달
   return {
     props: {
-      cookie,
+      user,
+      stores,
     },
   };
 };

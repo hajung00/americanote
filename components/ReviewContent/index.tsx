@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+import styled from 'styled-components';
 
 // import svg
-import Star from "../../public/assets/star.svg";
-import styled from "styled-components";
+import Star from '../../public/assets/star.svg';
+import Profile from '../../public/assets/profile.svg';
 
 const ReviewWrapper = styled.div`
   padding: 14px 0;
@@ -20,8 +21,8 @@ const ReviewHeader = styled.div`
   .profile {
     width: 40px;
     height: 40px;
-    background: #d9d9d9;
-    border-radius: 50%;
+    background: #fff;
+    // border-radius: 50%;
   }
   .review-info {
     display: flex;
@@ -32,7 +33,7 @@ const ReviewHeader = styled.div`
 
     .review-user {
       color: #000;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 14px;
       font-weight: 500;
     }
@@ -44,7 +45,7 @@ const ReviewHeader = styled.div`
 
 const ReviewContentInfo = styled.div`
   color: #000;
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
   font-size: 12px;
   font-weight: 400;
   padding: 8px 16px;
@@ -58,19 +59,23 @@ const ReviewContent = ({ review }: Props) => {
   return (
     <ReviewWrapper>
       <ReviewHeader>
-        <div className="profile"></div>
-        <div className="review-info">
-          <div className="review-user">닉네임</div>
-          <div className="review-star">
-            {Array(review.star)
+        <div className='profile'>
+          {!review.profileUrl && (
+            <Profile width={40} heigh={40} alt={'profile'} />
+          )}
+        </div>
+        <div className='review-info'>
+          <div className='review-user'>{review.nickName}</div>
+          <div className='review-star'>
+            {Array(parseInt(review.star))
               .fill(0)
               .map((item, i) => (
-                <Star width={12} height={12} key={i} color={"#FFBD31"} />
+                <Star width={12} height={12} key={i} color={'#FFBD31'} />
               ))}
-            {Array(5 - review.star)
+            {Array(5 - parseInt(review.star))
               .fill(0)
               .map((item, i) => (
-                <Star width={12} height={12} key={i} color={"#DDDDDD"} />
+                <Star width={12} height={12} key={i} color={'#DDDDDD'} />
               ))}
           </div>
         </div>

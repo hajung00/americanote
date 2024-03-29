@@ -25,42 +25,42 @@ interface Props {
 const ScentTag = ({ title }: Props) => {
   const scent = [
     {
-      name: '카라멜향',
+      name: '카라멜',
       background: '#F3D3A3',
       color: '#735C38',
     },
     {
-      name: '초콜릿향',
+      name: '초콜릿',
       background: '#D6A298',
       color: '#592015',
     },
     {
-      name: '와인향',
+      name: '와인',
       background: '#D6B1E3',
       color: '#6F4B7D',
     },
     {
-      name: '과일향',
+      name: '과일',
       background: '#FFDD86',
       color: '#A87812',
     },
     {
-      name: '스모키향',
+      name: '스모키',
       background: '#FF9375',
       color: '#8C3219',
     },
     {
-      name: '허브향',
+      name: '허브',
       background: '#C1D49E',
       color: '#697553',
     },
     {
-      name: '맥아향',
+      name: '맥아',
       background: '#A6B9CF',
       color: '#194A86',
     },
     {
-      name: '견과류향',
+      name: '견과류',
       background: '#CDA88D',
       color: '#3E2410',
     },
@@ -68,6 +68,11 @@ const ScentTag = ({ title }: Props) => {
       name: '꽃향',
       background: '#F0C0DD',
       color: '#AE3B81',
+    },
+    {
+      name: '향신료',
+      background: '#F09FA4',
+      color: '#821C22',
     },
   ];
 

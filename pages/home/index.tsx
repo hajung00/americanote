@@ -17,6 +17,7 @@ import ScentSVG from '../../public/assets/scent.svg';
 import AciditySVG from '../../public/assets/acidity.svg';
 import Cookies from 'js-cookie';
 import { getCookieValue } from '../../func/getCookieValue';
+import { DetailStore } from '../../types/store';
 
 export const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -91,15 +92,24 @@ export const VerticalCardWarpper = styled.div`
 
 interface Props {
   user: string;
+  photoStores: DetailStore[];
+  aloneStores: DetailStore[];
+  strongAcidityStores: DetailStore[];
 }
 
-const Home = ({ user }: Props) => {
-  const [selectStore, setSelectStore] = useState('');
+const Home = ({
+  user,
+  photoStores,
+  aloneStores,
+  strongAcidityStores,
+}: Props) => {
+  const [selectStoreId, setSelectStore] = useState<number>();
   const [storeDetailModal, setStoreDetailModal] = useState(false);
-  const onClickStore = useCallback((name: string) => {
+
+  const onClickStore = useCallback((id: number) => {
     console.log('click');
     setStoreDetailModal((prev) => !prev);
-    setSelectStore(name);
+    setSelectStore(id);
   }, []);
 
   const onClosedModal = useCallback(() => {
@@ -128,7 +138,7 @@ const Home = ({ user }: Props) => {
                   닉네임님의 취향에 맞는 카페
                 </PageTitle>
                 <VerticalCardWarpper>
-                  <VerticalCard onClick={onClickStore} />
+                  {/* <VerticalCard onClick={onClickStore} /> */}
                 </VerticalCardWarpper>
               </>
             ) : (
@@ -140,9 +150,14 @@ const Home = ({ user }: Props) => {
               # 인증샷 맛집
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
+              {photoStores.map((store, i) => (
+                <HorizontalCard
+                  key={i}
+                  user={user}
+                  store={store}
+                  onClick={onClickStore}
+                />
+              ))}
             </div>
           </Section>
           <Section>
@@ -150,9 +165,14 @@ const Home = ({ user }: Props) => {
               # 혼자가기 좋은 카페
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
+              {aloneStores.map((store, i) => (
+                <HorizontalCard
+                  key={i}
+                  user={user}
+                  store={store}
+                  onClick={onClickStore}
+                />
+              ))}
             </div>
           </Section>
           <Section>
@@ -160,15 +180,24 @@ const Home = ({ user }: Props) => {
               # 산미가 강한 카페
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
-              <HorizontalCard onClick={onClickStore} />
+              {strongAcidityStores.map((store, i) => (
+                <HorizontalCard
+                  key={i}
+                  user={user}
+                  store={store}
+                  onClick={onClickStore}
+                />
+              ))}
             </div>
           </Section>
         </PageWrapper>
       </ContentsLayout>
       {storeDetailModal && (
-        <StoreDetailModal name={selectStore} onClosed={onClosedModal} />
+        <StoreDetailModal
+          id={selectStoreId}
+          user={user}
+          onClosed={onClosedModal}
+        />
       )}
       <Footer />
     </Layout>
@@ -182,9 +211,18 @@ export const getServerSideProps = async (context: any) => {
 
   // 내 취향에 맞는 카페 정보 api
 
+  const photoStores = (await import('../../public/phote_stores.json')).default;
+  const aloneStores = (await import('../../public/alone_stores.json')).default;
+  const strongAcidityStores = (
+    await import('../../public/strong_acidity_stores.json')
+  ).default;
+
   return {
     props: {
       user,
+      photoStores,
+      aloneStores,
+      strongAcidityStores,
     },
   };
 };

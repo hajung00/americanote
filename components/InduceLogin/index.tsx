@@ -123,8 +123,8 @@ const InduceLogin = () => {
         </button>
       </LoginDescription>
       <SkeletonScreen>
-        {stores.concat(stores).map(() => (
-          <div className='skeletion-wrapper'>
+        {stores.concat(stores).map((val, i) => (
+          <div className='skeletion-wrapper' key={i}>
             <div className='img-content'></div>
             <div className='tag-wrapper'>
               <div className='first-tag-wrapper'></div>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { backUrl } from '../config/config';
 
+// 카카오 로그인
 export const loginAPI = async (accessToken: string) => {
   const result = await axios
     .get(`${backUrl}/api/user/kakao?code=${accessToken}`)
@@ -15,7 +16,7 @@ export const loginAPI = async (accessToken: string) => {
     })
     .catch((error: any) => {
       // 에러 처리
-      console.error('카카오 로그인 API요청 실패');
+      console.error('카카오 로그인 API요청 실패', error);
     });
   console.log('인증 토큰', result);
   return result;

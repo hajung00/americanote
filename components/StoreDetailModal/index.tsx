@@ -1,17 +1,19 @@
-import React, { useCallback } from "react";
-import ModalLayout from "../ModalLayout";
-import styled from "styled-components";
-import { useRouter } from "next/router";
+import React, { useCallback, useEffect, useState } from 'react';
+import ModalLayout from '../ModalLayout';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 // import svg
-import Star from "../../public/assets/star.svg";
-import Beans from "../../public/assets/beans.svg";
-import Close from "../../public/assets/close.svg";
-import Favorite from "../../public/assets/favorite.svg";
+import Star from '../../public/assets/star.svg';
+import Beans from '../../public/assets/beans.svg';
+import Close from '../../public/assets/close.svg';
+import Favorite from '../../public/assets/favorite.svg';
 
 // import conponents
-import ScentTag from "../ScentTag";
-import ReviewContent from "../ReviewContent";
+import ScentTag from '../ScentTag';
+import ReviewContent from '../ReviewContent';
+import { getStoreDetailAPI } from '../../api/store';
+import { DetailStore } from '../../types/store';
 
 const StoreDetailModalStyle = styled.div`
   //   height: calc(100vh - 283px);
@@ -41,7 +43,7 @@ const StoreDetailModalStyle = styled.div`
   //   }
 `;
 
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div<{ src: string }>`
   height: 178px;
   background: #fff;
   border-top-left-radius: 20px;
@@ -51,7 +53,7 @@ const ImgWrapper = styled.div`
   .img {
     width: 100%;
     height: 100%;
-    background-image: url(https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231025_172%2F1698225900521i9cxE_JPEG%2F1.jpg);
+    background-image: ${(props) => props.src && `url(${props.src})`};
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -92,7 +94,7 @@ const InfoWrapper = styled.div`
 
     .store-name {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 16px;
       font-weight: 600;
     }
@@ -102,7 +104,7 @@ const InfoWrapper = styled.div`
       align-items: center;
       gap: 2px;
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 12px;
       font-weight: 500;
       padding: 5px 0;
@@ -112,7 +114,7 @@ const InfoWrapper = styled.div`
   .title {
     color: #2c2310;
 
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 14px;
     font-weight: 500;
     padding: 8px 16px;
@@ -146,7 +148,7 @@ const TagWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 4px;
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 12px;
     font-weight: 500;
   }
@@ -171,13 +173,13 @@ const MenuWrapper = styled.div`
 
     .menu-name {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 14px;
       font-weight: 500;
     }
     .menu-price {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 14px;
       font-weight: 500;
     }
@@ -202,13 +204,13 @@ const ButtonWrapper = styled.div<{ type: string }>`
 
   & > button {
     height: 100%;
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 14px;
     font-weight: 600;
   }
 
   & > button:first-child {
-    width: ${(props) => (props.type === "search" ? "100%" : "120px")};
+    width: ${(props) => (props.type === 'search' ? '100%' : '120px')};
     border-radius: 8px;
     border: 1px solid #5d4c21;
     background: #fff;
@@ -224,7 +226,7 @@ const ButtonWrapper = styled.div<{ type: string }>`
   }
 
   & > button:last-child {
-    display: ${(props) => (props.type === "search" ? "none" : "flex")};
+    display: ${(props) => (props.type === 'search' ? 'none' : 'flex')};
     width: calc(100% - 120px - 13px);
     padding: 4px;
     justify-content: center;
@@ -235,87 +237,94 @@ const ButtonWrapper = styled.div<{ type: string }>`
     color: #fff;
     border: none;
   }
+  
+  }
 `;
 
 interface Props {
-  name: string;
+  id: number | undefined;
+  user: string;
   onClosed: () => void;
 }
 
-const StoreDetailModal = ({ name, onClosed }: Props) => {
+const StoreDetailModal = ({ id, user, onClosed }: Props) => {
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   }, []);
 
-  console.log("StoreDetailModal", name);
-  const reviews = [
-    { content: "a", star: 4 },
-    { content: "b", star: 3 },
-    { content: "c", star: 4 },
-    { content: "d", star: 3 },
-  ];
-  const scents = ["카라멜향", "초콜릿향", "과일향", "맥아향", "견과류향"];
-  const strength = "강도 강함";
-  const acidity = "산미 약함";
+  const [storeInfo, setStoreInfo] = useState<DetailStore>();
+
+  const getStoreDetail = useCallback(
+    async (id: number) => {
+      setStoreInfo(await getStoreDetailAPI(id));
+    },
+    [id]
+  );
+
+  useEffect(() => {
+    if (id) getStoreDetail(id);
+  }, [id]);
 
   const pathname = useRouter().pathname;
 
   return (
     <ModalLayout onClosed={onClosed}>
       <StoreDetailModalStyle onClick={stopPropagation}>
-        <ImgWrapper>
-          <div className="img"></div>
+        <ImgWrapper src={`${storeInfo ? storeInfo?.imageUrl : ''}`}>
+          <div className='img' />
           <Close width={24} height={24} onClick={onClosed} />
         </ImgWrapper>
         <InfoWrapper>
-          <div className="store-header">
-            <div className="store-name">{name}</div>
-            <div className="store-star">
-              <Star width={12} height={12} alt={"star"} color={"#FFBD31"} />
-              4.5
+          <div className='store-header'>
+            <div className='store-name'>{storeInfo?.cafeName}</div>
+            <div className='store-star'>
+              <Star width={12} height={12} alt={'star'} color={'#FFBD31'} />
+              {storeInfo?.avgStar}
             </div>
           </div>
           <TagWrapper>
-            <div className="scent">
-              {scents.map((scent, i) => (
-                <ScentTag key={i} title={scent} />
+            <div className='scent'>
+              {storeInfo?.coffeeDetail.flavours.map((scent, i) => (
+                <ScentTag key={i} title={scent.flavour} />
               ))}
             </div>
-            <div className="strength">
-              <div className="tag strength">
-                <Beans width={18} height={18} alt={"beans"} color={`#5B4132`} />
-                {strength}
+            <div className='strength'>
+              <div className='tag strength'>
+                <Beans width={18} height={18} alt={'beans'} color={`#5B4132`} />
+                강도 {storeInfo?.coffeeDetail.intensity}
               </div>
-              <div className="tag acidity">
-                <Beans width={18} height={18} alt={"beans"} color={`#8D6949`} />
-                {acidity}
+              <div className='tag acidity'>
+                <Beans width={18} height={18} alt={'beans'} color={`#8D6949`} />
+                산미 {storeInfo?.coffeeDetail.acidity}
               </div>
             </div>
           </TagWrapper>
           <MenuWrapper>
-            <div className="title">메뉴</div>
-            <div className="menu-wrapper">
-              <div className="menu-name">아메리카노</div>
-              <div className="menu-price">4.500원</div>
+            <div className='title'>메뉴</div>
+            <div className='menu-wrapper'>
+              <div className='menu-name'>{storeInfo?.coffeeDetail.name}</div>
+              <div className='menu-price'>
+                {storeInfo?.coffeeDetail.price}원
+              </div>
             </div>
           </MenuWrapper>
           <ReviewWrapper>
-            <div className="title">리뷰</div>
-            <div className="review-container">
-              {reviews.map((review, i) => (
+            <div className='title'>리뷰</div>
+            <div className='review-container'>
+              {storeInfo?.reviews.map((review, i) => (
                 <ReviewContent key={i} review={review} />
               ))}
             </div>
           </ReviewWrapper>
           <ButtonWrapper
-            type={`${pathname === "/search" ? "search" : "normal"}`}
+            type={`${pathname === '/search' ? 'search' : 'normal'}`}
           >
             <button>
               <Favorite
                 width={20}
                 height={18}
-                alt={"favorite"}
-                color={"#EDEDED"}
+                alt={'favorite'}
+                color={'#EDEDED'}
               />
               좋아요
             </button>

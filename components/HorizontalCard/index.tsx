@@ -1,13 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 // import components
-import ScentTag from "../ScentTag";
+import ScentTag from '../ScentTag';
+import { DetailStore } from '../../types/store';
 
 // import svg
-import Star from "../../public/assets/star.svg";
-import Beans from "../../public/assets/beans.svg";
-import Favorite from "../../public/assets/favorite.svg";
+import Star from '../../public/assets/star.svg';
+import Beans from '../../public/assets/beans.svg';
+import Favorite from '../../public/assets/favorite.svg';
 
 const HorizontalCardWrapper = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const HorizontalCardWrapper = styled.div`
   margin-bottom: 22px;
   cursor: pointer;
 `;
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div<{ src: string }>`
   width: 110px;
   height: 110px;
   background: #fff;
@@ -25,7 +26,7 @@ const ImgWrapper = styled.div`
   .img {
     width: 100%;
     height: 100%;
-    background-image: url(https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231025_172%2F1698225900521i9cxE_JPEG%2F1.jpg);
+    background-image: ${(props) => props.src && `url(${props.src})`};
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -49,13 +50,13 @@ const InfoWrapper = styled.div`
 
     .title {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 16px;
       font-weight: 600;
     }
     .review {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 12px;
       font-weight: 500;
       display: flex;
@@ -91,7 +92,7 @@ const TagWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 4px;
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 14px;
     font-weight: 500;
   }
@@ -104,42 +105,47 @@ const TagWrapper = styled.div`
 `;
 
 interface Props {
-  onClick: (name: string) => void;
+  user: string;
+  store: DetailStore;
+  onClick: (id: number) => void;
   // 카페 정보
 }
-const HorizontalCard = ({ onClick }: Props) => {
-  const scents = ["카라멜향", "초콜릿향", "과일향"];
+const HorizontalCard: any = ({ user, store, onClick }: Props) => {
   return (
     <HorizontalCardWrapper
       onClick={() => {
-        onClick("브레디포스트 연남점");
+        onClick(store.cafeId);
       }}
     >
-      <ImgWrapper>
-        <div className="img"></div>
-        <Favorite width={28} height={28} alt={"favorite"} color={"#EE5329"} />
+      <ImgWrapper src={`${store.imageUrl}`}>
+        <div className='img'></div>
+        {user && store.isHeart && (
+          <Favorite width={28} height={28} alt={'favorite'} color={'#EE5329'} />
+        )}
       </ImgWrapper>
       <InfoWrapper>
-        <div className="title-wrapper">
-          <div className="title">브레디포스트 연남점</div>
-          <div className="review">
-            <Star width={12} height={12} color={"#FFBD31"} />
-            4.5
+        <div className='title-wrapper'>
+          <div className='title'>{store.cafeName}</div>
+          <div className='review'>
+            <Star width={12} height={12} color={'#FFBD31'} />
+            {store.avgStar}
           </div>
         </div>
-        <div className="scent-wrapper">
-          {scents.map((scent: string, i: number) => (
-            <ScentTag key={i} title={scent} />
-          ))}
+        <div className='scent-wrapper'>
+          {store.coffeeDetail.flavours.map(
+            (scent: { [key: string]: string }, i: number) => (
+              <ScentTag key={i} title={scent.flavour} />
+            )
+          )}
         </div>
         <TagWrapper>
-          <div className="tag strength">
-            <Beans width={18} height={18} alt={"beans"} color={`#5B4132`} />
-            강도 강함
+          <div className='tag strength'>
+            <Beans width={18} height={18} alt={'beans'} color={`#5B4132`} />
+            강도 {store.coffeeDetail.intensity}
           </div>
-          <div className="tag acidity">
-            <Beans width={18} height={18} alt={"beans"} color={`#8D6949`} />
-            산미 약함
+          <div className='tag acidity'>
+            <Beans width={18} height={18} alt={'beans'} color={`#8D6949`} />
+            산미 {store.coffeeDetail.acidity}
           </div>
         </TagWrapper>
       </InfoWrapper>
