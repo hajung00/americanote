@@ -1,8 +1,13 @@
 'use client';
+import Image from 'next/image';
 import Layout from '../../components/Layout';
 import React, { useCallback, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+
+import OnBoarding1 from '../../public/assets/onboarding_1.png';
+import OnBoarding2 from '../../public/assets/onboarding_2.png';
+import OnBoarding3 from '../../public/assets/onboarding_3.png';
 
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
@@ -21,14 +26,32 @@ const SwiperCustom = styled(Swiper)`
   .swiper-button-next {
     display: none;
   }
+
   .swiper-slide {
-    height: 85vh;
+    height: calc(100vh - 74px);
     padding: 16px;
-    padding-top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40%;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #ccc;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: gray;
+    }
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
   }
 
   .swiper-pagination-horizontal {
-    top: 95px;
+    top: 8%;
     height: 30px;
   }
   .swiper-pagination-bullet-active {
@@ -39,6 +62,16 @@ const SwiperCustom = styled(Swiper)`
   font-family: 'Pretendard';
   font-size: 22px;
   font-weight: 500;
+
+  .img-wrapper {
+    width: 80%;
+    height: 100%;
+    margin-top: 47px;
+
+    & > img {
+      width: 100%;
+    }
+  }
 `;
 
 const StartButton = styled.button<{ active: string }>`
@@ -100,16 +133,25 @@ const OnBoarding = () => {
           아메리카노트로
           <br />
           나의 커피 취향을 발견해보세요.
+          <div className='img-wrapper'>
+            <Image src={OnBoarding1} alt='onboarding-img' />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
           카페에 방문하지 않아도
           <br />
           커피의 향, 강도, 산미를 알 수 있어요.
+          <div className='img-wrapper'>
+            <Image src={OnBoarding2} alt='onboarding-img' />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
           다양한 사람들의
           <br />
           리뷰도 함께 확인할 수 있어요.
+          <div className='img-wrapper'>
+            <Image src={OnBoarding3} alt='onboarding-img' />
+          </div>
         </SwiperSlide>
       </SwiperCustom>
       <StartButton
