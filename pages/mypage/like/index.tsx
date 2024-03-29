@@ -17,6 +17,8 @@ import StrengthSVG from '../../../public/assets/strength.svg';
 import ScentSVG from '../../../public/assets/scent.svg';
 import AciditySVG from '../../../public/assets/acidity.svg';
 import { getCookieValue } from '../../../func/getCookieValue';
+import { getPreferStoreAPI } from '../../../api/store';
+import { preferStore } from '../../../types/store';
 
 const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -104,17 +106,17 @@ const NonLikeStoreStyles = styled.div`
 
 interface Props {
   user: string;
-  likeStores: boolean; // 나중에는 좋아요한 카페 정보
+  preferStores: preferStore[]; // 나중에는 좋아요한 카페 정보
 }
-const Like = ({ user, likeStores }: Props) => {
+const Like = ({ user, preferStores }: Props) => {
   const router = useRouter();
 
-  const [selectStore, setSelectStore] = useState('');
+  const [selectStore, setSelectStore] = useState<number>();
   const [storeDetailModal, setStoreDetailModal] = useState(false);
-  const onClickStore = useCallback((name: string) => {
+  const onClickStore = useCallback((id: number) => {
     console.log('click');
     setStoreDetailModal((prev) => !prev);
-    setSelectStore(name);
+    setSelectStore(id);
   }, []);
 
   const onClosedModal = useCallback(() => {
@@ -122,7 +124,7 @@ const Like = ({ user, likeStores }: Props) => {
     setStoreDetailModal((prev) => !prev);
   }, []);
 
-  console.log(user, likeStores);
+  console.log('좋아요 누른 카페', preferStores);
   return (
     <Layout>
       <ContentsLayout>
@@ -141,8 +143,15 @@ const Like = ({ user, likeStores }: Props) => {
           <PageWrapper>
             <PageTitle>좋아요 누른 카페</PageTitle>
             <PageContent>
-              {likeStores ? (
-                <HorizontalCard onClick={onClickStore} />
+              {preferStores.length !== 0 ? (
+                preferStores.map((store, i) => (
+                  <HorizontalCard
+                    key={store.cafeId}
+                    user={user}
+                    store={store}
+                    onClick={onClickStore}
+                  />
+                ))
               ) : (
                 <NonLikeStoreStyles>
                   <div className='svg-wrapper'>
@@ -155,7 +164,13 @@ const Like = ({ user, likeStores }: Props) => {
                     <br />
                     관심 있는 카페를 찾고 저장해보세요!
                   </div>
-                  <button>카페 찾으러 가기</button>
+                  <button
+                    onClick={() => {
+                      router.push('/search');
+                    }}
+                  >
+                    카페 찾으러 가기
+                  </button>
                 </NonLikeStoreStyles>
               )}
             </PageContent>
@@ -163,7 +178,11 @@ const Like = ({ user, likeStores }: Props) => {
         </>
       </ContentsLayout>
       {storeDetailModal && (
-        <StoreDetailModal name={selectStore} onClosed={onClosedModal} />
+        <StoreDetailModal
+          id={selectStore}
+          user={user}
+          onClosed={onClosedModal}
+        />
       )}
       <Footer />
     </Layout>
@@ -178,12 +197,12 @@ export const getServerSideProps = async (context: any) => {
   console.log('like', user);
 
   // 유저가 좋아요 누른 카페 정보 api
-  const likeStores = true;
+  const preferStores = await getPreferStoreAPI(user);
 
   return {
     props: {
       user,
-      likeStores,
+      preferStores,
     },
   };
 };

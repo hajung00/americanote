@@ -16,6 +16,9 @@ import ContentsLayout from '../../components/ContentsLayout';
 import Footer from '../../components/Footer';
 import Layout from '../../components/Layout';
 import { getCookieValue } from '../../func/getCookieValue';
+import { getMyProfileAPI } from '../../api/user';
+import { UserInfo } from '../../types/user';
+import ProFile from '../../public/assets/profile.svg';
 
 export const MypageWrapper = styled.div`
   .sub-title {
@@ -45,7 +48,7 @@ export const PageWrapper = styled.div`
   }
 `;
 
-export const User = styled.div`
+export const User = styled.div<{ src: string }>`
   padding: 16px;
   padding-top: 57px;
   .img-wrapper {
@@ -53,6 +56,13 @@ export const User = styled.div`
     height: 74px;
     background: #fff;
     border-radius: 50%;
+    background-image: ${(props) => props.src && `url(${props.src})`};
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .nickname {
     margin-top: 24px;
@@ -104,7 +114,7 @@ export const User = styled.div`
         align-items: center;
         gap: 4px;
         font-family: 'Pretendard';
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
       }
       .strength {
@@ -116,7 +126,7 @@ export const User = styled.div`
     }
   }
 `;
-export const UserInfo = styled.div`
+export const UserInfoStyle = styled.div`
   padding: 16px;
   margin-bottom: 38px;
   .info {
@@ -147,10 +157,10 @@ export const UserInfo = styled.div`
 
 interface Props {
   user: string;
-  userTaste: { [key: string]: any };
+  userInfo: UserInfo;
 }
 
-const Mypage = ({ user, userTaste }: Props) => {
+const Mypage = ({ user, userInfo }: Props) => {
   const router = useRouter();
 
   const [tasteRgModal, setTasteRgModal] = useState(false);
@@ -171,37 +181,47 @@ const Mypage = ({ user, userTaste }: Props) => {
               <div className='logout'>로그아웃</div>
             </Header>
             <PageWrapper>
-              <User>
+              <User src={`${userInfo.profileImageUrl}`}>
                 <div className='img-wrapper'>
-                  {/* <img src={''} alt='프로필' /> */}
+                  {!userInfo.profileImageUrl && (
+                    <ProFile width={50} height={50} alt={'profile-img'} />
+                  )}
                 </div>
-                <div className='sub-title nickname'>유저닉네임</div>
+                <div className='sub-title nickname'>{userInfo.nickname}</div>
                 <div className='taste-wrapper'>
-                  {userTaste.scent.length !== 0 ? (
+                  {userInfo.flavours.length !== 0 &&
+                  userInfo.intensity &&
+                  userInfo.acidity ? (
                     <>
                       <div className='text content'>나의 취향</div>
                       <div className='tag-wrapper'>
-                        {userTaste.scent.map((scent: string, i: number) => (
-                          <ScentTag key={i} title={scent} />
-                        ))}
-                        <div className='tag strength'>
-                          <Beans
-                            width={18}
-                            height={18}
-                            alt={'beans'}
-                            color={`#5B4132`}
-                          />
-                          {userTaste.strength}
-                        </div>
-                        <div className='tag acidity'>
-                          <Beans
-                            width={18}
-                            height={18}
-                            alt={'beans'}
-                            color={`#8D6949`}
-                          />
-                          {userTaste.acidity}
-                        </div>
+                        {userInfo.flavours.map(
+                          (scent: { [key: string]: string }, i: number) => (
+                            <ScentTag key={i} title={scent.flavour} />
+                          )
+                        )}
+                        {userInfo.intensity && (
+                          <div className='tag strength'>
+                            <Beans
+                              width={18}
+                              height={18}
+                              alt={'beans'}
+                              color={`#5B4132`}
+                            />
+                            강도 {userInfo.intensity}
+                          </div>
+                        )}
+                        {userInfo.acidity && (
+                          <div className='tag acidity'>
+                            <Beans
+                              width={18}
+                              height={18}
+                              alt={'beans'}
+                              color={`#8D6949`}
+                            />
+                            산미 {userInfo.acidity}
+                          </div>
+                        )}
                       </div>
                     </>
                   ) : (
@@ -211,7 +231,7 @@ const Mypage = ({ user, userTaste }: Props) => {
                   )}
                 </div>
               </User>
-              <UserInfo>
+              <UserInfoStyle>
                 <div className='sub-title info'>내 정보</div>
                 <div className='select-list-wrapper'>
                   <div
@@ -231,7 +251,7 @@ const Mypage = ({ user, userTaste }: Props) => {
                     좋아요 누른 카페
                   </div>
                 </div>
-              </UserInfo>
+              </UserInfoStyle>
             </PageWrapper>
           </MypageWrapper>
         )}
@@ -246,20 +266,18 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   const user = getCookieValue(cookie, 'token');
 
+  let userInfo = null;
+  if (user) {
+    userInfo = await getMyProfileAPI(user);
+  }
+
   console.log('mypage', user);
   // 유저 정보 요청 api 작성
-
-  // 해당 유저의 취향 가져오는 api 작성
-  const userTaste = {
-    scent: ['맥아향', '허브향'],
-    strength: '강도 강함',
-    acidity: '산미 약함',
-  };
 
   return {
     props: {
       user,
-      userTaste,
+      userInfo,
     },
   };
 };

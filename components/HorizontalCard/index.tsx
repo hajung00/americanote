@@ -9,6 +9,7 @@ import { DetailStore } from '../../types/store';
 import Star from '../../public/assets/star.svg';
 import Beans from '../../public/assets/beans.svg';
 import Favorite from '../../public/assets/favorite.svg';
+import { useRouter } from 'next/router';
 
 const HorizontalCardWrapper = styled.div`
   display: flex;
@@ -111,6 +112,8 @@ interface Props {
   // 카페 정보
 }
 const HorizontalCard: any = ({ user, store, onClick }: Props) => {
+  const pathname = useRouter().pathname;
+
   return (
     <HorizontalCardWrapper
       onClick={() => {
@@ -119,8 +122,24 @@ const HorizontalCard: any = ({ user, store, onClick }: Props) => {
     >
       <ImgWrapper src={`${store.imageUrl}`}>
         <div className='img'></div>
-        {user && store.isHeart && (
-          <Favorite width={28} height={28} alt={'favorite'} color={'#EE5329'} />
+        {pathname !== '/home' ? (
+          user && store.hasLike ? (
+            <Favorite
+              width={28}
+              height={28}
+              alt={'favorite'}
+              color={'#EE5329'}
+            />
+          ) : (
+            <Favorite
+              width={28}
+              height={28}
+              alt={'favorite'}
+              color={'rgba(0, 0, 0, 0.30)'}
+            />
+          )
+        ) : (
+          ''
         )}
       </ImgWrapper>
       <InfoWrapper>
@@ -132,11 +151,9 @@ const HorizontalCard: any = ({ user, store, onClick }: Props) => {
           </div>
         </div>
         <div className='scent-wrapper'>
-          {store.coffeeDetail.flavours.map(
-            (scent: { [key: string]: string }, i: number) => (
-              <ScentTag key={i} title={scent.flavour} />
-            )
-          )}
+          {store.coffeeDetail.flavours.map((scent: string, i: number) => (
+            <ScentTag key={i} title={scent} />
+          ))}
         </div>
         <TagWrapper>
           <div className='tag strength'>

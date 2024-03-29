@@ -6,17 +6,7 @@
     "avgStar": 4.7,
     "coffeeDetail": {
       "name": "americano",
-      "flavours": [
-        {
-          "flavour": "꽃향"
-        },
-        {
-          "flavour": "초콜릿"
-        },
-        {
-          "flavour": "허브"
-        }
-      ],
+      "flavours": ["꽃", "초콜릿", "허브"],
       "intensity": "강함",
       "acidity": "약함",
       "price": 4000
@@ -68,14 +58,7 @@
     "avgStar": 4.8,
     "coffeeDetail": {
       "name": "아메리카노",
-      "flavours": [
-        {
-          "flavour": "견과류"
-        },
-        {
-          "flavour": "카라멜"
-        }
-      ],
+      "flavours": ["견과류", "카라멜"],
       "intensity": "중간",
       "acidity": "강함",
       "price": 5000
@@ -115,14 +98,7 @@
     "avgStar": 4.7,
     "coffeeDetail": {
       "name": "아메리카노",
-      "flavours": [
-        {
-          "flavour": "스모키"
-        },
-        {
-          "flavour": "향신료"
-        }
-      ],
+      "flavours": ["스모키", "향신료"],
       "intensity": "약함",
       "acidity": "약함",
       "price": 5000

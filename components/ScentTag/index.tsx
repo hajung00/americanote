@@ -65,7 +65,7 @@ const ScentTag = ({ title }: Props) => {
       color: '#3E2410',
     },
     {
-      name: '꽃향',
+      name: '꽃',
       background: '#F0C0DD',
       color: '#AE3B81',
     },
@@ -91,7 +91,7 @@ const ScentTag = ({ title }: Props) => {
       background={`${selectScent?.background}`}
       color={`${selectScent?.color}`}
     >
-      {title}
+      {title}향
     </TagItem>
   );
 };

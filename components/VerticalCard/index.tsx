@@ -1,13 +1,14 @@
-import React from "react";
+import React from 'react';
 
 // import components
-import ScentTag from "../ScentTag";
+import ScentTag from '../ScentTag';
 
 // import svg
-import Star from "../../public/assets/star.svg";
-import Beans from "../../public/assets/beans.svg";
-import Favorite from "../../public/assets/favorite.svg";
-import styled from "styled-components";
+import Star from '../../public/assets/star.svg';
+import Beans from '../../public/assets/beans.svg';
+import Favorite from '../../public/assets/favorite.svg';
+import styled from 'styled-components';
+import { DetailStore, MyTasteStore } from '../../types/store';
 
 const HorizontalCardWrapper = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const HorizontalCardWrapper = styled.div`
   gap: 14px;
   cursor: pointer;
 `;
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.div<{ src: string }>`
   width: 175px;
   height: 175px;
   background: #fff;
@@ -25,7 +26,7 @@ const ImgWrapper = styled.div`
   .img {
     width: 100%;
     height: 100%;
-    background-image: url(https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231025_172%2F1698225900521i9cxE_JPEG%2F1.jpg);
+    background-image: ${(props) => props.src && `url(${props.src})`};
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -49,13 +50,13 @@ const InfoWrapper = styled.div`
 
     .title {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 16px;
       font-weight: 600;
     }
     .review {
       color: #2c2310;
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 12px;
       font-weight: 500;
       display: flex;
@@ -66,7 +67,6 @@ const InfoWrapper = styled.div`
 
   .scent-wrapper {
     display: flex;
-    flex-flow: wrap;
     gap: 6px;
     width: 100%;
     margin-top: 10px;
@@ -79,7 +79,6 @@ const TagWrapper = styled.div`
   gap: 8px;
   margin-top: 12px;
   width: 100%;
-  flex-flow: wrap;
 
   .tag {
     width: fit-content;
@@ -91,9 +90,10 @@ const TagWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 4px;
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 12px;
     font-weight: 500;
+    min-width: fit-content;
   }
   .strength {
     color: #5b4132;
@@ -122,51 +122,51 @@ const SliderCustom = styled.div`
 `;
 
 interface Props {
-  onClick: (name: string) => void;
+  stores: MyTasteStore[];
+  onClick: (id: number) => void;
 }
-const VerticalCard = ({ onClick }: Props) => {
-  const scents = ["카라멜향", "초콜릿향", "과일향"];
-  const stores = ["A", "B", "C"];
-
+const VerticalCard = ({ stores, onClick }: Props) => {
   return (
     <SliderCustom>
       {stores.concat(stores).map((store, i) => (
         <HorizontalCardWrapper
           key={i}
           onClick={() => {
-            onClick(store);
+            onClick(store.id);
           }}
         >
-          <ImgWrapper>
-            <div className="img"></div>
-            <Favorite
+          <ImgWrapper src={`${store.imageUrl}`}>
+            <div className='img'></div>
+            {/* <Favorite
               width={28}
               height={28}
-              alt={"favorite"}
-              color={"#EE5329"}
-            />
+              alt={'favorite'}
+              color={'#EE5329'}
+            /> */}
           </ImgWrapper>
           <InfoWrapper>
-            <div className="title-wrapper">
-              <div className="title">{store}</div>
-              <div className="review">
-                <Star width={12} height={12} />
-                4.5
+            <div className='title-wrapper'>
+              <div className='title'>{store.cafeName}</div>
+              <div className='review'>
+                <Star width={12} height={12} color={'#FFBD31'} />
+                {store.avgStar}
               </div>
             </div>
-            <div className="scent-wrapper">
-              {scents.map((scent: string, i: number) => (
-                <ScentTag key={i} title={scent} />
-              ))}
+            <div className='scent-wrapper'>
+              {store.flavours.map(
+                (scent: { [key: string]: string }, i: number) => (
+                  <ScentTag key={i} title={scent.flavour} />
+                )
+              )}
             </div>
             <TagWrapper>
-              <div className="tag strength">
-                <Beans width={18} height={18} alt={"beans"} color={`#5B4132`} />
-                강도 강함
+              <div className='tag strength'>
+                <Beans width={18} height={18} alt={'beans'} color={`#5B4132`} />
+                강도 {store.intensity}
               </div>
-              <div className="tag acidity">
-                <Beans width={18} height={18} alt={"beans"} color={`#8D6949`} />
-                산미 약함
+              <div className='tag acidity'>
+                <Beans width={18} height={18} alt={'beans'} color={`#8D6949`} />
+                산미 {store.acidity}
               </div>
             </TagWrapper>
           </InfoWrapper>

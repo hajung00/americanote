@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Marker } from '../../types/map';
 
 const MarkerItem = ({ map, coordinates, icon, onClick }: Marker): null => {
-  const [marker, setMarker] = useState<any>(null);
+  const [marker, setMarker] = useState<naver.maps.Marker | null>(null);
 
   useEffect(() => {
     //지도에 store marker로 표시
     let marker: naver.maps.Marker | null = null;
     if (map) {
-      const marker = new naver.maps.Marker({
+      marker = new naver.maps.Marker({
         map: map,
         position: new naver.maps.LatLng(...coordinates),
         icon,
@@ -32,9 +32,9 @@ const MarkerItem = ({ map, coordinates, icon, onClick }: Marker): null => {
       //marker 클릭하면 event
       if (onClick) {
         naver.maps.Event.addListener(marker, 'click', onClick);
-        naver.maps.Event.addListener(marker, 'mouseover', handleMouseOver);
-        naver.maps.Event.addListener(marker, 'mouseout', handleMouseOut);
       }
+      naver.maps.Event.addListener(marker, 'mouseover', handleMouseOver);
+      naver.maps.Event.addListener(marker, 'mouseout', handleMouseOut);
     }
     return () => {
       marker?.setMap(null);

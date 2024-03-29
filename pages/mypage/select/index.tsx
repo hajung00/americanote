@@ -13,6 +13,8 @@ import ContentsLayout from '../../../components/ContentsLayout';
 import Footer from '../../../components/Footer';
 import Layout from '../../../components/Layout';
 import { getCookieValue } from '../../../func/getCookieValue';
+import { getMyProfileAPI, postMyTasteAPI } from '../../../api/user';
+import { UserInfo } from '../../../types/user';
 
 export const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -140,70 +142,72 @@ export const ButtonSection = styled.div`
 
 interface Props {
   user: string;
-  userTaste: { [key: string]: any };
+  userInfo: UserInfo;
 }
 
-const Select = ({ user, userTaste }: Props) => {
+const Select = ({ user, userInfo }: Props) => {
   const scent = [
     {
-      name: '카라멜향',
+      name: '카라멜',
       background: '#F3D3A3',
       color: '#735C38',
     },
     {
-      name: '초콜릿향',
+      name: '초콜릿',
       background: '#D6A298',
       color: '#592015',
     },
     {
-      name: '와인향',
+      name: '와인',
       background: '#D6B1E3',
       color: '#6F4B7D',
     },
     {
-      name: '과일향',
+      name: '과일',
       background: '#FFDD86',
       color: '#A87812',
     },
     {
-      name: '스모키향',
+      name: '스모키',
       background: '#FF9375',
       color: '#8C3219',
     },
     {
-      name: '허브향',
+      name: '허브',
       background: '#C1D49E',
       color: '#697553',
     },
     {
-      name: '맥아향',
+      name: '맥아',
       background: '#A6B9CF',
       color: '#194A86',
     },
     {
-      name: '견과류향',
+      name: '견과류',
       background: '#CDA88D',
       color: '#3E2410',
     },
     {
-      name: '꽃향',
+      name: '꽃',
       background: '#F0C0DD',
       color: '#AE3B81',
     },
   ];
 
-  const strength = ['강도 약함', '강도 중간', '강도 강함'];
-  const acidity = ['산미 약함', '산미 중간', '산미 강함'];
+  const strength = ['약함', '중간', '강함'];
+  const acidity = ['약함', '중간', '강함'];
 
   const router = useRouter();
-
-  const [selectScent, setSelectScent] = useState<string[]>([
-    ...userTaste?.scent,
-  ]);
-  const [selectStrength, setSelectStrength] = useState<string>(
-    userTaste?.strength
+  const flavours = userInfo?.flavours.map(
+    (flavour: { [key: string]: string }) => flavour.flavour
   );
-  const [selectAcidty, setSelectAcidty] = useState<string>(userTaste?.acidity);
+  const [selectScent, setSelectScent] = useState<string[]>(
+    userInfo ? [...flavours] : []
+  );
+  const [selectStrength, setSelectStrength] = useState<string>(
+    userInfo?.intensity
+  );
+  const [selectAcidty, setSelectAcidty] = useState<string>(userInfo?.acidity);
 
   const handleSelectScent = useCallback(
     (scent: string) => {
@@ -249,14 +253,23 @@ const Select = ({ user, userTaste }: Props) => {
     } else {
       setButtonActivation(false);
     }
-  }, [scent, strength, acidity]);
+  }, [selectScent, selectStrength, selectAcidty]);
 
   // 취향 등록
-  const saveUserTaste = useCallback(() => {
-    if (scent.length >= 1 && strength && acidity) {
-      // 취향 등록 api 작성
+  const saveUserTaste = useCallback(async () => {
+    if (selectScent.length >= 1 && selectStrength && selectAcidty) {
+      console.log(selectScent, selectStrength, selectAcidty);
+      const result = await postMyTasteAPI(
+        user,
+        selectScent,
+        selectStrength,
+        selectAcidty
+      );
+      if (result === 200) {
+        router.push('/mypage');
+      }
     }
-  }, [scent, strength, acidity]);
+  }, [selectScent, selectStrength, selectAcidty]);
 
   return (
     <Layout>
@@ -301,7 +314,7 @@ const Select = ({ user, userTaste }: Props) => {
                         handleSelectScent(item.name);
                       }}
                     >
-                      {item.name}
+                      {item.name}향
                     </TagItem>
                   ))}
                 </div>
@@ -332,7 +345,7 @@ const Select = ({ user, userTaste }: Props) => {
                         selectStrength === item ? `#5B4132` : '#a5a5a5'
                       }`}
                     />
-                    {item}
+                    강도 {item}
                   </TagItem>
                 ))}
               </div>
@@ -360,7 +373,7 @@ const Select = ({ user, userTaste }: Props) => {
                       alt={'beans'}
                       color={`${selectAcidty === item ? `#8D6949` : '#a5a5a5'}`}
                     />
-                    {item}
+                    산미 {item}
                   </TagItem>
                 ))}
               </div>
@@ -385,14 +398,16 @@ export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   const user = getCookieValue(cookie, 'token');
 
-  console.log('select', user);
-  // 해당 유저의 취향 가져오는 api 작성
-  const userTaste = { scent: [], strength: '강도 강함', acidity: '산미 약함' };
+  let userInfo = null;
+  if (user) {
+    userInfo = await getMyProfileAPI(user);
+  }
 
+  console.log(userInfo);
   return {
     props: {
       user,
-      userTaste,
+      userInfo,
     },
   };
 };

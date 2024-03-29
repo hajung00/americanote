@@ -12,7 +12,7 @@ import Favorite from '../../public/assets/favorite.svg';
 // import conponents
 import ScentTag from '../ScentTag';
 import ReviewContent from '../ReviewContent';
-import { getStoreDetailAPI } from '../../api/store';
+import { getStoreDetailAPI, postPreferStoreAPI } from '../../api/store';
 import { DetailStore } from '../../types/store';
 
 const StoreDetailModalStyle = styled.div`
@@ -151,6 +151,7 @@ const TagWrapper = styled.div`
     font-family: 'Pretendard';
     font-size: 12px;
     font-weight: 500;
+    min-width: fit-content;
   }
   .strength {
     color: #5b4132;
@@ -207,6 +208,7 @@ const ButtonWrapper = styled.div<{ type: string }>`
     font-family: 'Pretendard';
     font-size: 14px;
     font-weight: 600;
+    cursor:pointer;
   }
 
   & > button:first-child {
@@ -256,10 +258,23 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
 
   const getStoreDetail = useCallback(
     async (id: number) => {
-      setStoreInfo(await getStoreDetailAPI(id));
+      setStoreInfo(await getStoreDetailAPI(user, id));
     },
     [id]
   );
+
+  const onClickPreferStore = useCallback(async () => {
+    if (user) {
+      const result = await postPreferStoreAPI(user, id!);
+      if (result === 200) {
+        setStoreInfo(await getStoreDetailAPI(user, id!));
+      }
+    }
+    if (!user) {
+      console.log('유저 없음');
+      // 로그인 유도 모달 생성 후 띄우기
+    }
+  }, []);
 
   useEffect(() => {
     if (id) getStoreDetail(id);
@@ -285,7 +300,7 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
           <TagWrapper>
             <div className='scent'>
               {storeInfo?.coffeeDetail.flavours.map((scent, i) => (
-                <ScentTag key={i} title={scent.flavour} />
+                <ScentTag key={i} title={scent} />
               ))}
             </div>
             <div className='strength'>
@@ -319,12 +334,12 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
           <ButtonWrapper
             type={`${pathname === '/search' ? 'search' : 'normal'}`}
           >
-            <button>
+            <button onClick={onClickPreferStore}>
               <Favorite
                 width={20}
                 height={18}
                 alt={'favorite'}
-                color={'#EDEDED'}
+                color={`${storeInfo?.hasLike ? '#EE5329' : '#EDEDED'}`}
               />
               좋아요
             </button>

@@ -17,7 +17,8 @@ import ScentSVG from '../../public/assets/scent.svg';
 import AciditySVG from '../../public/assets/acidity.svg';
 import Cookies from 'js-cookie';
 import { getCookieValue } from '../../func/getCookieValue';
-import { DetailStore } from '../../types/store';
+import { DetailStore, MyTasteStore } from '../../types/store';
+import { getMyTasteStoreAPI } from '../../api/store';
 
 export const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -92,6 +93,7 @@ export const VerticalCardWarpper = styled.div`
 
 interface Props {
   user: string;
+  myTasteStores?: MyTasteStore[];
   photoStores: DetailStore[];
   aloneStores: DetailStore[];
   strongAcidityStores: DetailStore[];
@@ -99,6 +101,7 @@ interface Props {
 
 const Home = ({
   user,
+  myTasteStores,
   photoStores,
   aloneStores,
   strongAcidityStores,
@@ -117,6 +120,8 @@ const Home = ({
     setStoreDetailModal((prev) => !prev);
   }, []);
 
+  console.log(myTasteStores);
+
   return (
     <Layout>
       <ContentsLayout>
@@ -132,13 +137,13 @@ const Home = ({
         </Header>
         <PageWrapper>
           <Section>
-            {user ? (
+            {user && myTasteStores ? (
               <>
                 <PageTitle after={'285px'} left={'268px'}>
                   닉네임님의 취향에 맞는 카페
                 </PageTitle>
                 <VerticalCardWarpper>
-                  {/* <VerticalCard onClick={onClickStore} /> */}
+                  <VerticalCard stores={myTasteStores} onClick={onClickStore} />
                 </VerticalCardWarpper>
               </>
             ) : (
@@ -206,20 +211,29 @@ const Home = ({
 
 export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  const user = getCookieValue(cookie, 'token');
-  console.log('home', user);
+  let myTasteStores = null;
+  let user = null;
+  if (cookie) {
+    user = getCookieValue(cookie, 'token');
+    console.log('home', user);
+  }
 
   // 내 취향에 맞는 카페 정보 api
-
+  if (user) {
+    myTasteStores = await getMyTasteStoreAPI(user);
+  }
   const photoStores = (await import('../../public/phote_stores.json')).default;
   const aloneStores = (await import('../../public/alone_stores.json')).default;
   const strongAcidityStores = (
     await import('../../public/strong_acidity_stores.json')
   ).default;
 
+  console.log('myTasteStores', myTasteStores);
+
   return {
     props: {
       user,
+      myTasteStores,
       photoStores,
       aloneStores,
       strongAcidityStores,

@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
-import ScrollContainer from "react-indiana-drag-scroll";
+import React, { useCallback, useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 // import component
-import ContentsLayout from "../../../components/ContentsLayout";
-import Footer from "../../../components/Footer";
-import Layout from "../../../components/Layout";
-import HorizontalCard from "../../../components/HorizontalCard";
-import StoreDetailModal from "../../../components/StoreDetailModal";
+import ContentsLayout from '../../../components/ContentsLayout';
+import Footer from '../../../components/Footer';
+import Layout from '../../../components/Layout';
+import HorizontalCard from '../../../components/HorizontalCard';
+import StoreDetailModal from '../../../components/StoreDetailModal';
 
 // import svg
-import SearchSVG from "../../../public/assets/search.svg";
-import LeftSVG from "../../../public/assets/left.svg";
-import XSVG from "../../../public/assets/x.svg";
+import SearchSVG from '../../../public/assets/search.svg';
+import LeftSVG from '../../../public/assets/left.svg';
+import XSVG from '../../../public/assets/x.svg';
 
 const Header = styled.div`
   display: flex;
@@ -77,7 +77,7 @@ const RecentSerach = styled.div`
 
   .title {
     color: var(--Brand-Color, #2c2310);
-    font-family: "Pretendard";
+    font-family: 'Pretendard';
     font-size: 16px;
     font-weight: 600;
     padding: 10px 0;
@@ -96,7 +96,7 @@ const RecentSerach = styled.div`
       border: 1px solid var(--Gray-100, #ccc);
       background: #fff;
       color: var(--Gray-300, #636363);
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
       font-size: 14px;
       font-weight: 500;
       min-width: max-content;
@@ -109,28 +109,28 @@ const RecentSerach = styled.div`
 
 const SearchStore = () => {
   const recentSearch = [
-    "연남동 하나 베이커리",
-    "치플레",
-    "코코로카라",
-    "코코로카라",
+    '연남동 하나 베이커리',
+    '치플레',
+    '코코로카라',
+    '코코로카라',
   ];
   const router = useRouter();
 
-  const [selectStore, setSelectStore] = useState("");
+  const [selectStore, setSelectStore] = useState('');
   const [storeDetailModal, setStoreDetailModal] = useState(false);
 
   const onClickStore = useCallback((name: string) => {
-    console.log("click");
+    console.log('click');
     setStoreDetailModal((prev) => !prev);
     setSelectStore(name);
   }, []);
 
   const onClosedModal = useCallback(() => {
-    console.log("closed");
+    console.log('closed');
     setStoreDetailModal((prev) => !prev);
   }, []);
 
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const onClickRecentSearch = useCallback((e: any) => {
     setSearchKeyword(e.target.innerText);
@@ -142,7 +142,7 @@ const SearchStore = () => {
 
   // 검색 요청
   const searchRequestHandler = useCallback(() => {
-    console.log("검색어", searchKeyword);
+    console.log('검색어', searchKeyword);
   }, [searchKeyword]);
   return (
     <Layout>
@@ -151,26 +151,26 @@ const SearchStore = () => {
           <LeftSVG
             width={36}
             height={36}
-            alt={"prev"}
-            className={"prev"}
+            alt={'prev'}
+            className={'prev'}
             onClick={() => {
               router.back();
             }}
           />
-          <div className="search-wrapper">
+          <div className='search-wrapper'>
             <input
-              type="text"
+              type='text'
               value={searchKeyword}
               onChange={onChangeHandler}
-              placeholder="카페 이름을 검색해보세요."
+              placeholder='카페 이름을 검색해보세요.'
             />
             <div>
               <SearchSVG
                 width={16}
                 height={16}
-                alt={"search"}
-                className={"search"}
-                color={"#A5A5A5"}
+                alt={'search'}
+                className={'search'}
+                color={'#A5A5A5'}
                 onClick={searchRequestHandler}
               />
             </div>
@@ -178,18 +178,18 @@ const SearchStore = () => {
         </Header>
         <PageWrapper>
           <RecentSerach>
-            <div className="title">최근 검색어</div>
-            <ScrollContainer className="item-wrapper">
+            <div className='title'>최근 검색어</div>
+            <ScrollContainer className='item-wrapper'>
               {recentSearch.map((item, i) => (
                 <div
                   key={i}
-                  className="item"
+                  className='item'
                   onClick={(e) => {
                     onClickRecentSearch(e);
                   }}
                 >
                   {item}
-                  <XSVG width={24} height={24} alt={"x"} color={"#636363"} />
+                  <XSVG width={24} height={24} alt={'x'} color={'#636363'} />
                 </div>
               ))}
             </ScrollContainer>
@@ -199,18 +199,18 @@ const SearchStore = () => {
           </div>
         </PageWrapper>
       </ContentsLayout>
-      {storeDetailModal && (
+      {/* {storeDetailModal && (
         <StoreDetailModal name={selectStore} onClosed={onClosedModal} />
-      )}
+      )} */}
       <Footer />
     </Layout>
   );
 };
 
 export const getServerSideProps = async (context: any) => {
-  const cookie = context.req ? context.req.headers.cookie : "";
+  const cookie = context.req ? context.req.headers.cookie : '';
 
-  console.log("search-store");
+  console.log('search-store');
   // 토큰이 있으면 페이지에 전달
   return {
     props: {

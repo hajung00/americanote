@@ -1,14 +1,14 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Layout from "../components/Layout";
-import Cookies from "js-cookie";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Layout from '../components/Layout';
+import Cookies from 'js-cookie';
 
 // import svg
-import StrengthSVG from "../public/assets/strength.svg";
-import ScentSVG from "../public/assets/scent.svg";
-import AciditySVG from "../public/assets/acidity.svg";
-import styled from "styled-components";
+import StrengthSVG from '../public/assets/strength.svg';
+import ScentSVG from '../public/assets/scent.svg';
+import AciditySVG from '../public/assets/acidity.svg';
+import styled from 'styled-components';
 
 interface Props {
   opacity: number;
@@ -30,7 +30,7 @@ const SplashStyle = styled.div<Props>`
 
     & > div {
       color: var(--Brand-500, #5b4132);
-      font-family: "Pretendard";
+      font-family: 'Pretendard';
     }
     .title {
       font-size: 34px;
@@ -44,7 +44,7 @@ const SplashStyle = styled.div<Props>`
     }
 
     &::after {
-      content: "";
+      content: '';
       display: block;
       width: calc(100% - 50px);
       height: 1px;
@@ -64,7 +64,7 @@ const SplashStyle = styled.div<Props>`
     justify-content: center;
     .title {
       color: #2c2310;
-      font-family: "Montserrat";
+      font-family: 'Montserrat';
       font-size: 26px;
       font-weight: 600;
       line-height: 26px;
@@ -92,11 +92,11 @@ const Splash = () => {
     //   }
     // }, 2000);
 
-    const onboardingVisited = Cookies.get("onboarding_visited");
+    const onboardingVisited = Cookies.get('onboarding_visited');
 
     if (opacity > 96) {
       const timer1 = setTimeout(() => {
-        console.log("dd");
+        console.log('dd');
         setOpacity(opacity - 1);
         clearTimeout(timer1);
       }, 100);
@@ -109,9 +109,9 @@ const Splash = () => {
 
     if (opacity == 0) {
       if (onboardingVisited) {
-        router.push("/home");
+        router.push('/home');
       } else {
-        router.push("/onboarding");
+        router.push('/onboarding');
       }
     }
     // return () => clearTimeout(timer);
@@ -120,9 +120,9 @@ const Splash = () => {
   return (
     <Layout>
       <SplashStyle opacity={opacity}>
-        <div className="top-section">
-          <div className="title">카페를 방문하지 않고도</div>
-          <div className="focus">
+        <div className='top-section'>
+          <div className='title'>카페를 방문하지 않고도</div>
+          <div className='focus'>
             커피의 <br />
             향, 강도, 산미를
             <br />
@@ -130,29 +130,17 @@ const Splash = () => {
           </div>
         </div>
 
-        <div className="bottom-section">
-          <div className="title">Americanote</div>
-          <div className="svg-wrapper">
-            <StrengthSVG width={24} height={24} alt={"strength"} />
-            <ScentSVG width={24} height={24} alt={"scent"} />
-            <AciditySVG width={24} height={24} alt={"acidity"} />
+        <div className='bottom-section'>
+          <div className='title'>Americanote</div>
+          <div className='svg-wrapper'>
+            <StrengthSVG width={24} height={24} alt={'strength'} />
+            <ScentSVG width={24} height={24} alt={'scent'} />
+            <AciditySVG width={24} height={24} alt={'acidity'} />
           </div>
         </div>
       </SplashStyle>
     </Layout>
   );
-};
-
-export const getServerSideProps = async (context: any) => {
-  const cookie = context.req ? context.req.headers.cookie : "";
-
-  console.log("splash");
-  // 토큰이 있으면 페이지에 전달
-  return {
-    props: {
-      cookie,
-    },
-  };
 };
 
 export default Splash;

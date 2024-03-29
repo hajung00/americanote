@@ -160,26 +160,35 @@ const Search = ({ user, stores }: Props) => {
     }
   }, [current]);
 
-  const [price, setPrice] = useState<any>();
+  const [price, setPrice] = useState<any>([]);
   const [scent, setScent] = useState<any>([]);
-  const [strength, setStrength] = useState<any>();
-  const [acidity, setAcidity] = useState<any>();
+  const [strength, setStrength] = useState<any>([]);
+  const [acidity, setAcidity] = useState<any>([]);
 
   const [filterModal, setfilterModal] = useState(false);
   const filterModalHandler = useCallback(() => {
     setfilterModal((prev) => !prev);
   }, []);
 
-  const handleSaveFilter = useCallback((a: any, b: any, c: any, d: any) => {
-    setPrice(a);
-    setScent([...b]);
-    setStrength(c);
-    setAcidity(d);
-  }, []);
+  const handleSaveFilter = useCallback(
+    (price: any, scent: any, strength: any, acidity: any) => {
+      setPrice([...price]);
+      setScent([...scent]);
+      setStrength([...strength]);
+      setAcidity([...acidity]);
+    },
+    []
+  );
 
   useEffect(() => {
     // 필터에 해당하는 매장 다시 요청
-    console.log('필터', price, scent, strength, acidity);
+    console.log(
+      '필터 바뀔 때마다 해당하는 매장 요청',
+      price,
+      scent,
+      strength,
+      acidity
+    );
   }, [price, scent, strength, acidity]);
 
   return (
@@ -211,12 +220,12 @@ const Search = ({ user, stores }: Props) => {
           <FilterSection>
             <ScrollContainer className='filter-item-wrapper'>
               {/* 가격 */}
-              {price ? (
+              {price.length !== 0 ? (
                 <div
                   className='filter-item select'
                   onClick={filterModalHandler}
                 >
-                  {price}
+                  가격 {price.length}
                   <XSVG
                     width={24}
                     height={24}
@@ -241,7 +250,7 @@ const Search = ({ user, stores }: Props) => {
                   className='filter-item select'
                   onClick={filterModalHandler}
                 >
-                  {scent.join(', ')}
+                  향 {scent.length}
                   <XSVG
                     width={24}
                     height={24}
@@ -261,12 +270,12 @@ const Search = ({ user, stores }: Props) => {
               )}
 
               {/* 강도 */}
-              {strength ? (
+              {strength.length !== 0 ? (
                 <div
                   className='filter-item select'
                   onClick={filterModalHandler}
                 >
-                  {strength}
+                  강도 {strength.length}
                   <XSVG
                     width={24}
                     height={24}
@@ -285,12 +294,12 @@ const Search = ({ user, stores }: Props) => {
               )}
 
               {/* 산미 */}
-              {acidity ? (
+              {acidity.length !== 0 ? (
                 <div
                   className='filter-item select'
                   onClick={filterModalHandler}
                 >
-                  {acidity}
+                  산미 {acidity.length}
                   <XSVG
                     width={24}
                     height={24}
