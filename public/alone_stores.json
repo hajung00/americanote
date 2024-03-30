@@ -1,6 +1,6 @@
 [
   {
-    "cafeId": 65,
+    "id": 65,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220324_145%2F1648125121247MsfOD_JPEG%2Fcc_8.jpg",
     "cafeName": "얼스어스",
     "avgStar": 4.7,
@@ -58,7 +58,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 123,
+    "id": 123,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220523_11%2F1653236044338Rz7zq_JPEG%2F9CC3FB78-6184-43A8-B43F-1B5355A6A5A4.jpeg",
     "cafeName": "루트커피",
     "avgStar": 4.2,
@@ -110,7 +110,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 118,
+    "id": 118,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20220629_275%2F16565104472677ysxT_JPEG%2F91814514-825E-4447-9FE5-D4016E66C186.jpeg",
     "cafeName": "솔트 포레스트",
     "avgStar": 4.3,

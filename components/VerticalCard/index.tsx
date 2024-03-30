@@ -9,6 +9,7 @@ import Beans from '../../public/assets/beans.svg';
 import Favorite from '../../public/assets/favorite.svg';
 import styled from 'styled-components';
 import { DetailStore, MyTasteStore } from '../../types/store';
+import useCurrentStore from '../../hooks/useCurrentStore';
 
 const HorizontalCardWrapper = styled.div`
   display: flex;
@@ -122,10 +123,13 @@ const SliderCustom = styled.div`
 `;
 
 interface Props {
+  user: string;
   stores: MyTasteStore[];
   onClick: (id: number) => void;
 }
-const VerticalCard = ({ stores, onClick }: Props) => {
+const VerticalCard = ({ user, stores, onClick }: Props) => {
+  const { setCurrentStore } = useCurrentStore();
+
   return (
     <SliderCustom>
       {stores.concat(stores).map((store, i) => (
@@ -133,6 +137,7 @@ const VerticalCard = ({ stores, onClick }: Props) => {
           key={i}
           onClick={() => {
             onClick(store.id);
+            setCurrentStore(store);
           }}
         >
           <ImgWrapper src={`${store.imageUrl}`}>
@@ -153,11 +158,9 @@ const VerticalCard = ({ stores, onClick }: Props) => {
               </div>
             </div>
             <div className='scent-wrapper'>
-              {store.flavours.map(
-                (scent: { [key: string]: string }, i: number) => (
-                  <ScentTag key={i} title={scent.flavour} />
-                )
-              )}
+              {store.flavours.map((scent: string, i: number) => (
+                <ScentTag key={i} title={scent} />
+              ))}
             </div>
             <TagWrapper>
               <div className='tag strength'>

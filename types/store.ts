@@ -13,7 +13,7 @@ export type Store = {
 
 //매장 상세 정보
 export type DetailStore = {
-  cafeId: number;
+  id: number;
   imageUrl: string;
   cafeName: string;
   avgStar: number;
@@ -36,7 +36,7 @@ export type MyTasteStore = {
   imageUrl: string;
   cafeName: string;
   avgStar: number;
-  flavours: [{ [key: string]: string }];
+  flavours: string[];
   intensity: string;
   acidity: string;
   hasLike: boolean;
@@ -45,7 +45,7 @@ export type MyTasteStore = {
 // 좋아요 누른 카페 정보
 
 export type preferStore = {
-  cafeId: number;
+  id: number;
   cafeName: string;
   imageUrl: string;
   coffeeDetail: {

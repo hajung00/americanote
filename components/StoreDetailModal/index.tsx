@@ -255,22 +255,16 @@ interface Props {
 }
 
 const StoreDetailModal = ({ id, user, onClosed }: Props) => {
+  const { data: current } = useSWR(CURRENT_STORE_KEY);
+  const { setCurrentStore } = useCurrentStore();
+  const router = useRouter();
+  const pathname = useRouter().pathname;
+  const [storeInfo, setStoreInfo] = useState<DetailStore>();
+  const [induceLoginModal, setInduceLoginModal] = useState(false);
+
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   }, []);
-
-  const [storeInfo, setStoreInfo] = useState<DetailStore>();
-  const { data: current } = useSWR(CURRENT_STORE_KEY);
-
-  const getStoreDetail = useCallback(
-    async (id: number) => {
-      console.log('dd');
-      setStoreInfo(await getStoreDetailAPI(undefined, id));
-    },
-    [id, current]
-  );
-
-  const [induceLoginModal, setInduceLoginModal] = useState(false);
 
   const induceLoginModalHandler = useCallback(() => {
     setInduceLoginModal((prev) => !prev);
@@ -278,23 +272,30 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
 
   const onClickPreferStore = useCallback(async () => {
     if (user) {
-      const result = await postPreferStoreAPI(user, id!);
+      const result = await postPreferStoreAPI(user, current.id);
       if (result === 200) {
-        setStoreInfo(await getStoreDetailAPI(user, id!));
+        setStoreInfo(await getStoreDetailAPI(user, current.id));
       }
     }
     if (!user) {
-      console.log('유저 없음');
       induceLoginModalHandler();
     }
   }, []);
 
   useEffect(() => {
-    if (id) getStoreDetail(id);
-  }, [id]);
+    console.log(current);
+    if (current.id) {
+      const getStoreDetail = async () => {
+        if (user) {
+          setStoreInfo(await getStoreDetailAPI(user, current.id));
+        } else {
+          setStoreInfo(await getStoreDetailAPI(undefined, current.id));
+        }
+      };
+      getStoreDetail();
+    }
+  }, [current.id]);
 
-  const router = useRouter();
-  const { setCurrentStore } = useCurrentStore();
   const goToMap = useCallback(() => {
     console.log(storeInfo);
     storeInfo && setCurrentStore(storeInfo);
@@ -303,8 +304,6 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
       `/search/?zoom=15&lat=${storeInfo?.latitude}&lng=${storeInfo?.longitude}`
     );
   }, [storeInfo]);
-
-  const pathname = useRouter().pathname;
 
   return (
     <>
@@ -367,7 +366,7 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
               </div>
             </ReviewWrapper>
             <ButtonWrapper
-              type={`${pathname === '/search' ? 'normal' : 'normal'}`}
+              type={`${pathname === '/search' ? 'search' : 'normal'}`}
             >
               <button onClick={onClickPreferStore}>
                 <Favorite

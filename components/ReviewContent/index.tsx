@@ -22,7 +22,7 @@ const ReviewHeader = styled.div`
     width: 40px;
     height: 40px;
     background: #fff;
-    // border-radius: 50%;
+    border-radius: 50%;
   }
   .review-info {
     display: flex;

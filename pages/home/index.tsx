@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // import components
@@ -21,6 +21,7 @@ import { DetailStore, MyTasteStore } from '../../types/store';
 import { getMyTasteStoreAPI } from '../../api/store';
 import { getMyProfileAPI } from '../../api/user';
 import { UserInfo } from '../../types/user';
+import useCurrentStore from '../../hooks/useCurrentStore';
 
 export const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -125,7 +126,10 @@ const Home = ({
   }, []);
 
   console.log(myTasteStores);
-
+  const { cleartCurrentStore } = useCurrentStore();
+  useEffect(() => {
+    cleartCurrentStore();
+  }, []);
   return (
     <Layout>
       <ContentsLayout>
@@ -147,7 +151,11 @@ const Home = ({
                   {myInfo.nickname}님의 취향에 맞는 카페
                 </PageTitle>
                 <VerticalCardWarpper>
-                  <VerticalCard stores={myTasteStores} onClick={onClickStore} />
+                  <VerticalCard
+                    user={user}
+                    stores={myTasteStores}
+                    onClick={onClickStore}
+                  />
                 </VerticalCardWarpper>
               </>
             ) : (

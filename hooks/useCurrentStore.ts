@@ -7,7 +7,7 @@ export const CURRENT_STORE_KEY = '/current-store';
 // store 마크업 클릭 했을 때, 전역으로 관리
 const useCurrentStore = () => {
   //현재 클릭한 store 전역으로 지정
-  const setCurrentStore = useCallback((store: DetailStore) => {
+  const setCurrentStore = useCallback((store: any) => {
     mutate(CURRENT_STORE_KEY, store);
   }, []);
 

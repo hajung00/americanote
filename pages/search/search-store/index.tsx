@@ -179,6 +179,7 @@ const SearchStore = ({ user, recentSearch }: Props) => {
 
   const onClickStore = useCallback(async (id: number) => {
     const currentStore = await getStoreDetailAPI(user, id);
+    console.log(currentStore);
     setCurrentStore(currentStore);
     router.push(
       `/search/?zoom=15&lat=${currentStore.latitude}&lng=${currentStore.longitude}`

@@ -2,7 +2,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useSWR from 'swr';
-import { CURRENT_STORE_KEY } from '../../hooks/useCurrentStore';
+import useCurrentStore, {
+  CURRENT_STORE_KEY,
+} from '../../hooks/useCurrentStore';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
@@ -180,23 +182,17 @@ const Search = ({ user, stores }: Props) => {
     },
     []
   );
+  const { cleartCurrentStore } = useCurrentStore();
 
   useDidMountEffect(() => {
-    // 새롭게 얻은 매장으로 지도 초기화 **수정**
-
+    // 새롭게 얻은 매장으로 지도 초기화
     const fetchData = async () => {
-      console.log(
-        '필터 바뀔 때마다 해당하는 매장 요청',
-        price,
-        scent,
-        strength,
-        acidity
-      );
       const result = await getFilteredStoreAPI(price, scent, strength, acidity);
       initializeStores(result);
     };
 
     fetchData();
+    cleartCurrentStore();
   }, [price, scent, strength, acidity]);
 
   return (
@@ -224,7 +220,7 @@ const Search = ({ user, stores }: Props) => {
           </div>
         </Header>
         <PageWrapper>
-          <MapSection />
+          <MapSection onClosedDetailModal={onClosedDetailModal} />
           <FilterSection>
             <ScrollContainer className='filter-item-wrapper'>
               {/* 가격 */}

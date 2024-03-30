@@ -1,6 +1,6 @@
 [
   {
-    "cafeId": 63,
+    "id": 63,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190831_92%2F1567177671649XwsSg_JPEG%2FedxN4JM-IAZausXd1bI52RYI.jpeg.jpg",
     "cafeName": "작당모의",
     "avgStar": 5.0,
@@ -34,7 +34,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 119,
+    "id": 119,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230206_143%2F1675657188998NEVg0_JPEG%2FKakaoTalk_Photo_2022-10-30-19-06-11_003.jpeg",
     "cafeName": "케익다방 연남점",
     "avgStar": 4.7,
@@ -68,7 +68,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 108,
+    "id": 108,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240130_65%2F1706583119044wc0DT_JPEG%2FIMG_9043.jpeg",
     "cafeName": "아사프",
     "avgStar": 4.4,

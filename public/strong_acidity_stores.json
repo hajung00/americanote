@@ -1,6 +1,6 @@
 [
   {
-    "cafeId": 149,
+    "id": 149,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240112_31%2F1705024080203LTeF0_JPEG%2F97AF1952-56D1-40DC-9E15-1B1828D84D55.",
     "cafeName": "렁디커피",
     "avgStar": 4.7,
@@ -52,7 +52,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 97,
+    "id": 97,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231204_32%2F1701678540655uqiJC_JPEG%2FIMG_9798.jpeg",
     "cafeName": "라프하우스",
     "avgStar": 4.8,
@@ -92,7 +92,7 @@
     "isHeart": false
   },
   {
-    "cafeId": 157,
+    "id": 157,
     "imageUrl": "https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221116_109%2F1668580703797xXMkK_JPEG%2FER4A3084.jpg",
     "cafeName": "로프스페이스 연남",
     "avgStar": 4.7,

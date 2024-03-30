@@ -17,7 +17,7 @@ import StrengthSVG from '../../../public/assets/strength.svg';
 import ScentSVG from '../../../public/assets/scent.svg';
 import AciditySVG from '../../../public/assets/acidity.svg';
 import { getCookieValue } from '../../../func/getCookieValue';
-import { getPreferStoreAPI } from '../../../api/store';
+import { getPreferStoreAPI, postPreferStoreAPI } from '../../../api/store';
 import { preferStore } from '../../../types/store';
 
 const PageWrapper = styled.div`
@@ -65,7 +65,6 @@ const PageTitle = styled.div`
 
 const PageContent = styled.div`
   padding: 0 16px;
-  height: calc(100vh - 80px - 78px - 111px);
 `;
 
 const NonLikeStoreStyles = styled.div`
@@ -125,6 +124,18 @@ const Like = ({ user, preferStores }: Props) => {
   }, []);
 
   console.log('좋아요 누른 카페', preferStores);
+
+  const [preferStoreList, setPreferStoreList] = useState(preferStores);
+  const handlePreferStore = useCallback(async (id: number) => {
+    if (user) {
+      const result = await postPreferStoreAPI(user, id);
+      if (result === 200) {
+        const result = await getPreferStoreAPI(user);
+        setPreferStoreList(result);
+      }
+    }
+  }, []);
+
   return (
     <Layout>
       <ContentsLayout>
@@ -143,13 +154,14 @@ const Like = ({ user, preferStores }: Props) => {
           <PageWrapper>
             <PageTitle>좋아요 누른 카페</PageTitle>
             <PageContent>
-              {preferStores.length !== 0 ? (
-                preferStores.map((store, i) => (
+              {preferStoreList.length !== 0 ? (
+                preferStoreList.map((store, i) => (
                   <HorizontalCard
-                    key={store.cafeId}
+                    key={store.id}
                     user={user}
                     store={store}
                     onClick={onClickStore}
+                    handlePreferStore={handlePreferStore}
                   />
                 ))
               ) : (

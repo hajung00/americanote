@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 // import components
@@ -10,6 +10,8 @@ import Star from '../../public/assets/star.svg';
 import Beans from '../../public/assets/beans.svg';
 import Favorite from '../../public/assets/favorite.svg';
 import { useRouter } from 'next/router';
+import { getStoreDetailAPI, postPreferStoreAPI } from '../../api/store';
+import useCurrentStore from '../../hooks/useCurrentStore';
 
 const HorizontalCardWrapper = styled.div`
   display: flex;
@@ -109,18 +111,36 @@ interface Props {
   user: string;
   store: DetailStore;
   onClick: (id: number) => void;
+  handlePreferStore?: any;
   // 카페 정보
 }
-const HorizontalCard: any = ({ user, store, onClick }: Props) => {
+const HorizontalCard: any = ({
+  user,
+  store,
+  onClick,
+  handlePreferStore,
+}: Props) => {
   const pathname = useRouter().pathname;
+
+  const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }, []);
+
+  const { setCurrentStore } = useCurrentStore();
 
   return (
     <HorizontalCardWrapper
       onClick={() => {
-        onClick(store.cafeId);
+        onClick(store.id);
+        setCurrentStore(store);
       }}
     >
-      <ImgWrapper src={`${store.imageUrl}`}>
+      <ImgWrapper
+        src={`${store.imageUrl}`}
+        onClick={(e: any) => {
+          stopPropagation(e);
+        }}
+      >
         <div className='img'></div>
         {pathname !== '/home' ? (
           user && store.hasLike ? (
@@ -129,6 +149,9 @@ const HorizontalCard: any = ({ user, store, onClick }: Props) => {
               height={28}
               alt={'favorite'}
               color={'#EE5329'}
+              onClick={() => {
+                handlePreferStore(store.id);
+              }}
             />
           ) : (
             <Favorite

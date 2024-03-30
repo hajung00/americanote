@@ -180,7 +180,7 @@ export const DeleteRecentKeywordAPI = async (user: string, keyword: string) => {
   }
 };
 
-// 카페 필터링 **수정**
+// 카페 필터링
 export const getFilteredStoreAPI = async (
   price: string[],
   flavours: string[],
@@ -193,20 +193,19 @@ export const getFilteredStoreAPI = async (
     intensity: intensity.length === 0 ? null : intensity,
     acidity: acidity.length === 0 ? null : acidity,
   };
-  console.log(params);
-  // const result = await axios
-  //   .post(`${backUrl}/api/cafe/filter`, params)
-  //   .then((response: any) => {
-  //     if (response.status == '200') {
-  //       return response.status;
-  //     }
-  //   })
-  //   .catch((error: any) => {
-  //     // 에러 처리
-  //     console.error('카페 필터링 API 요청 실패', error);
-  //   });
-  // console.log('카페 필터링 요청', result);
-  // return result;
+  const result = await axios
+    .post(`${backUrl}/api/cafe/filter`, params)
+    .then((response: any) => {
+      if (response.status == '200') {
+        return response.data.data;
+      }
+    })
+    .catch((error: any) => {
+      // 에러 처리
+      console.error('카페 필터링 API 요청 실패', error);
+    });
+  console.log('카페 필터링 요청', result);
+  return result;
 };
 
 // 카페 검색

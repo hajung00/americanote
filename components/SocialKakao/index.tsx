@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import KaKaoSVG from '../../public/assets/kakao.svg';
 import Cookies from 'js-cookie';
 import { loginAPI } from '../../api/accout';
+import { useRouter } from 'next/router';
 
 const KaKaoButton = styled(KakaoLogin)`
   background: #fee500;
@@ -21,13 +22,15 @@ interface Props {
 
 const SocialKakao = ({ setTasteRgModal }: Props) => {
   const kakaoClientId = 'c1f31e371b5892bd16b99aaca06afd70';
+  const router = useRouter();
   const kakaoOnSuccess = async (data: any) => {
     const [jwtToken, isTaste] = await loginAPI(data.response.access_token);
     if (jwtToken!) {
       Cookies.set('token', jwtToken, { expires: 14 }); // 만료 날짜를 30일로 설정
-      if (!isTaste) {
+      if (isTaste) {
         setTasteRgModal(true);
       }
+      router.push('/mypage');
     }
   };
   const kakaoOnFailure = (error: any) => {

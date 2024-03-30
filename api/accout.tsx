@@ -6,14 +6,12 @@ export const loginAPI = async (accessToken: string) => {
   const [token, isTaste]: any = await axios
     .get(`${backUrl}/api/user/kakao?code=${accessToken}`)
     .then((response: any) => {
-      console.log(response);
-      // **수정**
       if (response.status == '200') {
         const authorizationHeader = response.headers.get('Authorization');
         if (authorizationHeader) {
           const token = authorizationHeader.split(' ')[1]; // 'Bearer <token>'에서 <token> 추출
           // 바디에 유저가 선택한 취향 있는지 확인
-          return [token, false];
+          return [token, response.data.data];
         }
       }
     })

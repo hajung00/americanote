@@ -7,7 +7,10 @@ import Markers from '../Markers';
 import { useRouter } from 'next/router';
 import { Coordinates } from '../../types/store';
 
-const MapSection = () => {
+interface Props {
+  onClosedDetailModal: () => void;
+}
+const MapSection = ({ onClosedDetailModal }: Props) => {
   const { initializeMap } = useMap();
   const { cleartCurrentStore } = useCurrentStore();
 
@@ -39,7 +42,7 @@ const MapSection = () => {
         initialZoom={initialZoom}
         initialCenter={initialCenter}
       />
-      <Markers />
+      <Markers onClosedDetailModal={onClosedDetailModal} />
     </div>
   );
 };

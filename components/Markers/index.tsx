@@ -9,7 +9,10 @@ import useCurrentStore, {
 import { ImageIcon } from '../../types/map';
 import { STORE_KEY } from '../../hooks/useStores';
 
-const Markers = () => {
+interface Props {
+  onClosedDetailModal: () => void;
+}
+const Markers = ({ onClosedDetailModal }: Props) => {
   const { data: stores } = useSWR<Store[]>(STORE_KEY);
   const { data: map } = useSWR(MAP_KEY);
 
@@ -45,10 +48,9 @@ const Markers = () => {
             coordinates={[currentstore.latitude, currentstore.longitude]}
             icon={generateStoreMarkerIcon(true)}
             key={currentstore.id}
-            // onClick={() => {
-            //   setCurrentStore(currentstore);
-            // }}
-            onClick={cleartCurrentStore}
+            onClick={() => {
+              onClosedDetailModal();
+            }}
           />
         )
       }
