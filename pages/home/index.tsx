@@ -142,7 +142,7 @@ const Home = ({
         <Header>
           <HeaderContent>
             <div className='title'>
-              <Image src={logo} width={174} height={32} alt={'logo'} />
+              <Image src={logo} width={174} height={40} alt={'logo'} />
             </div>
             <div className='svg-wrapper'>
               <StrengthSVG width={24} height={24} alt={'strength'} />
