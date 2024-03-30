@@ -190,7 +190,9 @@ const Mypage = ({ user, userInfo }: Props) => {
         ) : (
           <MypageWrapper>
             <Header>
-              <div className='title'>My note.</div>
+              <div className='title' style={{ fontFamily: 'Montserrat' }}>
+                My note.
+              </div>
               <div className='logout' onClick={handleLogout}>
                 로그아웃
               </div>

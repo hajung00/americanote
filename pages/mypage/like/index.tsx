@@ -57,9 +57,9 @@ const PageTitle = styled.div`
     background: #d8c6b7;
     position: absolute;
     top: 0;
-    width: calc(100% - 212px);
+    width: calc(100% - 188px);
     top: 13px;
-    left: 196px;
+    left: 171px;
   }
 `;
 

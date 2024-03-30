@@ -155,7 +155,7 @@ const Home = ({
           <Section>
             {user && myTasteStores ? (
               <>
-                <PageTitle after={'326px'} left={'310px'}>
+                <PageTitle after={'287px'} left={'271px'}>
                   {myInfo.nickname}님의 취향에 맞는 카페
                 </PageTitle>
                 <VerticalCardWarpper>
@@ -171,7 +171,7 @@ const Home = ({
             )}
           </Section>
           <Section>
-            <PageTitle after={'179px'} left={'163px'} style={{ marginTop: 0 }}>
+            <PageTitle after={'162px'} left={'145px'} style={{ marginTop: 0 }}>
               # 인증샷 맛집
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
@@ -186,7 +186,7 @@ const Home = ({
             </div>
           </Section>
           <Section>
-            <PageTitle after={'255px'} left={'239px'}>
+            <PageTitle after={'224px'} left={'207px'}>
               # 혼자가기 좋은 카페
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
@@ -201,7 +201,7 @@ const Home = ({
             </div>
           </Section>
           <Section>
-            <PageTitle after={'252px'} left={'236px'}>
+            <PageTitle after={'226px'} left={'209px'}>
               # 좋아요가 많은 카페
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
