@@ -165,7 +165,7 @@ export const DeleteRecentKeywordAPI = async (user: string, keyword: string) => {
     };
 
     const result = await axios
-      .delete(`${backUrl}/api/cafe/research?keyword=${keyword}`, { headers })
+      .delete(`${backUrl}/api/cafe/search?keyword=${keyword}`, { headers })
       .then((response: any) => {
         if (response.status == '200') {
           return response.data.data;
