@@ -190,8 +190,8 @@ export const getFilteredStoreAPI = async (
   const params = {
     priceRanges: price.length === 0 ? null : price,
     flavours: flavours.length === 0 ? null : flavours,
-    intensitys: intensity.length === 0 ? null : intensity,
-    aciditys: acidity.length === 0 ? null : acidity,
+    intensities: intensity.length === 0 ? null : intensity,
+    acidities: acidity.length === 0 ? null : acidity,
   };
   const result = await axios
     .post(`${backUrl}/api/cafe/filter`, params)
