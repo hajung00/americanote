@@ -51,9 +51,9 @@ export const PageTitle = styled.div`
     background: #d8c6b7;
     position: absolute;
     top: 0;
-    width: calc(100% - 210px);
+    width: calc(100% - 240px);
     top: 13px;
-    left: 193px;
+    left: 224px;
   }
 `;
 
