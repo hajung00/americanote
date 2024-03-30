@@ -170,7 +170,7 @@ const HorizontalCard: any = ({
           <div className='title'>{store.cafeName}</div>
           <div className='review'>
             <Star width={12} height={12} color={'#FFBD31'} />
-            {store.avgStar}
+            {store.avgStar.toFixed(1)}
           </div>
         </div>
         <div className='scent-wrapper'>

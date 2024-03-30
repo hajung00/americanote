@@ -318,7 +318,7 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
               <div className='store-name'>{storeInfo?.cafeName}</div>
               <div className='store-star'>
                 <Star width={12} height={12} alt={'star'} color={'#FFBD31'} />
-                {storeInfo?.avgStar}
+                {storeInfo?.avgStar.toFixed(1)}
               </div>
             </div>
             <TagWrapper>

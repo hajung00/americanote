@@ -24,7 +24,7 @@ import { UserInfo } from '../../types/user';
 import useCurrentStore from '../../hooks/useCurrentStore';
 
 export const PageWrapper = styled.div`
-  height: calc(100vh - 80px - 78px);
+  // height: calc(100vh - 80px - 78px);
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -193,8 +193,8 @@ const Home = ({
             </div>
           </Section>
           <Section>
-            <PageTitle after={'234px'} left={'218px'}>
-              # 산미가 강한 카페
+            <PageTitle after={'252px'} left={'236px'}>
+              # 좋아요가 많은 카페
             </PageTitle>
             <div style={{ padding: '0 16px' }}>
               {strongAcidityStores.map((store, i) => (
@@ -208,6 +208,7 @@ const Home = ({
             </div>
           </Section>
         </PageWrapper>
+        <Footer />
       </ContentsLayout>
       {storeDetailModal && (
         <StoreDetailModal
@@ -216,7 +217,6 @@ const Home = ({
           onClosed={onClosedModal}
         />
       )}
-      <Footer />
     </Layout>
   );
 };
