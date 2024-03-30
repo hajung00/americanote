@@ -222,7 +222,7 @@ export const getSearchStoreAPI = async (
     const result = await axios
       .get(
         `${backUrl}/api/cafe/search?keyword=${
-          keyword === undefined ? null : keyword
+          keyword === undefined ? 'null' : keyword
         }`,
         { headers }
       )
