@@ -12,8 +12,8 @@ import UserSVG from '../../public/assets/user.svg';
 const FooterStyle = styled.footer`
   height: 78px;
   background: beige;
-  // position: absolute;
-  // bottom: 0;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   max-width: 475px;
 

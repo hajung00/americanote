@@ -38,6 +38,7 @@ const ImgWrapper = styled.div<{ src: string }>`
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 99;
   }
 `;
 const InfoWrapper = styled.div`
@@ -161,6 +162,9 @@ const HorizontalCard: any = ({
               height={28}
               alt={'favorite'}
               color={'rgba(0, 0, 0, 0.30)'}
+              onClick={() => {
+                handlePreferStore(store.id);
+              }}
             />
           )
         ) : (

@@ -3,12 +3,17 @@ import styled from 'styled-components';
 
 const HeaderStyle = styled.div`
   height: 80px;
-  padding: 016px;
+  padding: 16px;
   padding-top: 47px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
+  -webkit-box-pack: justify;
+  position: sticky;
+  top: 0px;
+  z-index: 99;
+  background: #f5efea;
   .title {
     color: var(--Brand-Color, #2c2310);
     font-family: 'Pretendard';

@@ -22,8 +22,10 @@ import {
   getRecentKeywordAPI,
   getSearchStoreAPI,
   getStoreDetailAPI,
+  postPreferStoreAPI,
 } from '../../../api/store';
 import useCurrentStore from '../../../hooks/useCurrentStore';
+import InduceLoginModal from '../../../components/InduceLoginModal';
 
 const Header = styled.div`
   display: flex;
@@ -235,6 +237,27 @@ const SearchStore = ({ user, recentSearch }: Props) => {
     [recentSearchKeyword]
   );
 
+  const [induceLoginModal, setInduceLoginModal] = useState(false);
+  const induceLoginModalHandler = useCallback(() => {
+    setInduceLoginModal((prev) => !prev);
+  }, []);
+
+  // 좋아요 클릭시 이벤트
+  const handlePreferStore = useCallback(
+    async (id: number) => {
+      if (user) {
+        const result = await postPreferStoreAPI(user, id);
+        if (result === 200) {
+          setSearchStore(await getSearchStoreAPI(user, searchKeyword));
+        }
+      }
+      if (!user) {
+        induceLoginModalHandler();
+      }
+    },
+    [searchKeyword]
+  );
+
   return (
     <Layout>
       <ContentsLayout>
@@ -316,6 +339,7 @@ const SearchStore = ({ user, recentSearch }: Props) => {
                     user={user}
                     store={store}
                     onClick={onClickStore}
+                    handlePreferStore={handlePreferStore}
                   />
                 ))
               ) : (
@@ -330,6 +354,9 @@ const SearchStore = ({ user, recentSearch }: Props) => {
           </SearchStoreWrapper>
         </PageWrapper>
       </ContentsLayout>
+      {induceLoginModal && (
+        <InduceLoginModal onClosed={induceLoginModalHandler} />
+      )}
       <Footer />
     </Layout>
   );
