@@ -383,7 +383,9 @@ const Select = ({ user, userInfo }: Props) => {
                 className={`${buttonActivation && 'active'}`}
                 onClick={saveUserTaste}
               >
-                나의 취향 등록하기
+                {selectScent.length === 0
+                  ? '나의 취향 등록하기'
+                  : '나의 취향 수정하기'}
               </button>
             </ButtonSection>
           </PageWrapper>
