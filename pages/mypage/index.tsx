@@ -19,6 +19,7 @@ import { getCookieValue } from '../../func/getCookieValue';
 import { getMyProfileAPI } from '../../api/user';
 import { UserInfo } from '../../types/user';
 import ProFile from '../../public/assets/profile.svg';
+import { logoutAPI } from '../../api/accout';
 
 export const MypageWrapper = styled.div`
   .sub-title {
@@ -26,6 +27,9 @@ export const MypageWrapper = styled.div`
     font-family: 'Pretendard';
     font-size: 22px;
     font-weight: 600;
+  }
+  .logout {
+    cursor: pointer;
   }
 `;
 
@@ -169,6 +173,15 @@ const Mypage = ({ user, userInfo }: Props) => {
     setTasteRgModal((prev) => !prev);
   }, []);
 
+  const handleLogout = useCallback(async () => {
+    if (user) {
+      const result = await logoutAPI(user);
+      if (result === 200) {
+        router.reload();
+      }
+    }
+  }, [user]);
+
   return (
     <Layout>
       <ContentsLayout>
@@ -178,7 +191,9 @@ const Mypage = ({ user, userInfo }: Props) => {
           <MypageWrapper>
             <Header>
               <div className='title'>My note.</div>
-              <div className='logout'>로그아웃</div>
+              <div className='logout' onClick={handleLogout}>
+                로그아웃
+              </div>
             </Header>
             <PageWrapper>
               <User src={`${userInfo.profileImageUrl}`}>
