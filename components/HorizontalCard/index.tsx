@@ -41,7 +41,6 @@ const ImgWrapper = styled.div<{ src: string }>`
   }
 `;
 const InfoWrapper = styled.div`
-  min-width: fit-content;
   width: 59%;
   width: calc(100% - 110px - 14px);
   .title-wrapper {
@@ -56,6 +55,9 @@ const InfoWrapper = styled.div`
       font-family: 'Pretendard';
       font-size: 16px;
       font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .review {
       color: #2c2310;

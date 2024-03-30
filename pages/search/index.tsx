@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useSWR from 'swr';
@@ -26,6 +27,7 @@ import SearchSVG from '../../public/assets/search.svg';
 import ArrowSVG from '../../public/assets/arrow_down.svg';
 import FilterSVG from '../../public/assets/filter.svg';
 import XSVG from '../../public/assets/x.svg';
+import logo from '../../public/assets/americanote.png';
 import useStores from '../../hooks/useStores';
 import { getAllStoreAPI, getFilteredStoreAPI } from '../../api/store';
 import { Store } from '../../types/store';
@@ -67,6 +69,11 @@ const HeaderContent = styled.div`
     font-size: 26px;
     font-weight: 600;
     line-height: 26px;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .svg-wrapper {
     display: flex;
@@ -200,7 +207,9 @@ const Search = ({ user, stores }: Props) => {
       <ContentsLayout>
         <Header>
           <HeaderContent>
-            <div className='title'>Americanote</div>
+            <div className='title'>
+              <Image src={logo} width={174} height={32} alt={'logo'} />
+            </div>
             <div className='svg-wrapper'>
               <StrengthSVG width={24} height={24} alt={'strength'} />
               <ScentSVG width={24} height={24} alt={'scent'} />

@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
@@ -9,6 +10,7 @@ import StrengthSVG from '../public/assets/strength.svg';
 import ScentSVG from '../public/assets/scent.svg';
 import AciditySVG from '../public/assets/acidity.svg';
 import styled from 'styled-components';
+import logo from '../public/assets/americanote.png';
 
 interface Props {
   opacity: number;
@@ -68,6 +70,11 @@ const SplashStyle = styled.div<Props>`
       font-size: 26px;
       font-weight: 600;
       line-height: 26px;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
     }
     .svg-wrapper {
       display: flex;
@@ -94,26 +101,26 @@ const Splash = () => {
 
     const onboardingVisited = Cookies.get('onboarding_visited');
 
-    if (opacity > 96) {
-      const timer1 = setTimeout(() => {
-        console.log('dd');
-        setOpacity(opacity - 1);
-        clearTimeout(timer1);
-      }, 100);
-    } else if (opacity > 5) {
-      const timer2 = setTimeout(() => {
-        setOpacity(opacity - 8);
-        clearTimeout(timer2);
-      }, 70);
-    }
+    // if (opacity > 96) {
+    //   const timer1 = setTimeout(() => {
+    //     console.log('dd');
+    //     setOpacity(opacity - 1);
+    //     clearTimeout(timer1);
+    //   }, 100);
+    // } else if (opacity > 5) {
+    //   const timer2 = setTimeout(() => {
+    //     setOpacity(opacity - 8);
+    //     clearTimeout(timer2);
+    //   }, 70);
+    // }
 
-    if (opacity == 0) {
-      if (onboardingVisited) {
-        router.push('/home');
-      } else {
-        router.push('/onboarding');
-      }
-    }
+    // if (opacity == 0) {
+    //   if (onboardingVisited) {
+    //     router.push('/home');
+    //   } else {
+    //     router.push('/onboarding');
+    //   }
+    // }
     // return () => clearTimeout(timer);
   }, [opacity]);
 
@@ -131,7 +138,9 @@ const Splash = () => {
         </div>
 
         <div className='bottom-section'>
-          <div className='title'>Americanote</div>
+          <div className='title'>
+            <Image src={logo} width={174} height={32} alt={'logo'} />
+          </div>
           <div className='svg-wrapper'>
             <StrengthSVG width={24} height={24} alt={'strength'} />
             <ScentSVG width={24} height={24} alt={'scent'} />

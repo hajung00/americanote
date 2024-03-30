@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Image from 'next/image';
 
 // import components
 import ContentsLayout from '../../components/ContentsLayout';
@@ -15,6 +16,8 @@ import InduceLogin from '../../components/InduceLogin';
 import StrengthSVG from '../../public/assets/strength.svg';
 import ScentSVG from '../../public/assets/scent.svg';
 import AciditySVG from '../../public/assets/acidity.svg';
+import logo from '../../public/assets/americanote.png';
+
 import Cookies from 'js-cookie';
 import { getCookieValue } from '../../func/getCookieValue';
 import { DetailStore, MyTasteStore } from '../../types/store';
@@ -76,6 +79,10 @@ export const HeaderContent = styled.div`
     font-size: 26px;
     font-weight: 600;
     line-height: 26px;
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
   }
   .svg-wrapper {
     display: flex;
@@ -135,7 +142,9 @@ const Home = ({
       <ContentsLayout>
         <Header>
           <HeaderContent>
-            <div className='title'>Americanote</div>
+            <div className='title'>
+              <Image src={logo} width={174} height={32} alt={'logo'} />
+            </div>
             <div className='svg-wrapper'>
               <StrengthSVG width={24} height={24} alt={'strength'} />
               <ScentSVG width={24} height={24} alt={'scent'} />
