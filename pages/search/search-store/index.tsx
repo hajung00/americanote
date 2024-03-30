@@ -224,7 +224,7 @@ const SearchStore = ({ user, recentSearch }: Props) => {
     }
   }, [searchKeyword, user]);
 
-  // 검색어 삭제 **수정**
+  // 검색어 삭제
   const deleteSearchKeyword = useCallback(
     async (item: string) => {
       if (user) {

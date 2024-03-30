@@ -213,6 +213,7 @@ export const getSearchStoreAPI = async (
   user: string | undefined,
   keyword: string
 ) => {
+  console.log(keyword.length);
   if (user) {
     const headers = {
       Authorization: `Bearer ${user}`,
@@ -222,7 +223,7 @@ export const getSearchStoreAPI = async (
     const result = await axios
       .get(
         `${backUrl}/api/cafe/search?keyword=${
-          keyword === undefined ? 'null' : keyword
+          keyword.length === 0 ? null : keyword
         }`,
         { headers }
       )
