@@ -124,6 +124,7 @@ const FilterSection = styled.div`
   }
   .filter-icon {
     width: 38px;
+    min-width: 38px;
     height: 38px;
     background: #fff;
     border-radius: 50%;
