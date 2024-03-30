@@ -220,7 +220,12 @@ export const getSearchStoreAPI = async (
     };
 
     const result = await axios
-      .get(`${backUrl}/api/cafe/search?keyword=${keyword}`, { headers })
+      .get(
+        `${backUrl}/api/cafe/search?keyword=${
+          keyword === undefined ? null : keyword
+        }`,
+        { headers }
+      )
       .then((response: any) => {
         if (response.status == '200') {
           return response.data.data;
