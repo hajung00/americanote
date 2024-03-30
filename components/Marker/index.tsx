@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Marker } from '../../types/map';
+import useCurrentStore from '../../hooks/useCurrentStore';
 
 const MarkerItem = ({ map, coordinates, icon, onClick }: Marker): null => {
   const [marker, setMarker] = useState<naver.maps.Marker | null>(null);
+  const { setCurrentStore } = useCurrentStore();
 
   useEffect(() => {
     //지도에 store marker로 표시

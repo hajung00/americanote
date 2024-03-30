@@ -16,6 +16,14 @@ import StoreDetailModal from '../../../components/StoreDetailModal';
 import SearchSVG from '../../../public/assets/search.svg';
 import LeftSVG from '../../../public/assets/left.svg';
 import XSVG from '../../../public/assets/x.svg';
+import { getCookieValue } from '../../../func/getCookieValue';
+import {
+  DeleteRecentKeywordAPI,
+  getRecentKeywordAPI,
+  getSearchStoreAPI,
+  getStoreDetailAPI,
+} from '../../../api/store';
+import useCurrentStore from '../../../hooks/useCurrentStore';
 
 const Header = styled.div`
   display: flex;
@@ -31,6 +39,7 @@ const Header = styled.div`
     background: #fff;
     width: -webkit-fill-available;
     justify-content: space-between;
+    align-items: center;
 
     & > input {
       border: none;
@@ -42,11 +51,27 @@ const Header = styled.div`
       line-height: normal;
       outline: none;
       background: #fff;
+      width: 87%;
     }
 
     & > div {
       cursor: pointer;
+      display: flex;
     }
+
+    .remove-icon {
+      width: 16px;
+      height: 16px;
+      background: #a5a5a5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  }
+
+  & > svg {
+    cursor: pointer;
   }
 `;
 
@@ -72,7 +97,6 @@ const PageWrapper = styled.div`
 `;
 
 const RecentSerach = styled.div`
-  margin-bottom: 19px;
   border-bottom: 1px solid #d8c6b7;
 
   .title {
@@ -107,30 +131,72 @@ const RecentSerach = styled.div`
   }
 `;
 
-const SearchStore = () => {
-  const recentSearch = [
-    '연남동 하나 베이커리',
-    '치플레',
-    '코코로카라',
-    '코코로카라',
-  ];
+const SearchStoreWrapper = styled.div`
+  padding-top: 19px;
+
+  .title {
+    color: var(--Brand-Color, #2c2310);
+    font-family: 'Pretendard';
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 0;
+  }
+  .stores-wrapper {
+    margin-top: 12px;
+    padding: 0 11px;
+  }
+
+  .no-store-description {
+    padding-top: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .title {
+      color: #000;
+      font-family: 'Pretendard';
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .content {
+      color: var(--Gray-300, #636363);
+      font-family: 'Pretendard';
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+`;
+interface Props {
+  user: string;
+  recentSearch: string[];
+}
+
+const SearchStore = ({ user, recentSearch }: Props) => {
   const router = useRouter();
 
-  const [selectStore, setSelectStore] = useState('');
-  const [storeDetailModal, setStoreDetailModal] = useState(false);
+  const { setCurrentStore } = useCurrentStore();
 
-  const onClickStore = useCallback((name: string) => {
-    console.log('click');
-    setStoreDetailModal((prev) => !prev);
-    setSelectStore(name);
-  }, []);
-
-  const onClosedModal = useCallback(() => {
-    console.log('closed');
-    setStoreDetailModal((prev) => !prev);
+  const onClickStore = useCallback(async (id: number) => {
+    const currentStore = await getStoreDetailAPI(user, id);
+    setCurrentStore(currentStore);
+    router.push(
+      `/search/?zoom=15&lat=${currentStore.latitude}&lng=${currentStore.longitude}`
+    );
   }, []);
 
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+
+  // 입력 상자에 포커스되었을 때 호출되는 함수
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+
+  // 입력 상자에서 포커스가 벗어났을 때 호출되는 함수
+  const handleInputBlur = () => {
+    setIsFocused(false);
+  };
 
   const onClickRecentSearch = useCallback((e: any) => {
     setSearchKeyword(e.target.innerText);
@@ -140,10 +206,34 @@ const SearchStore = () => {
     setSearchKeyword(e.target.value);
   }, []);
 
-  // 검색 요청
-  const searchRequestHandler = useCallback(() => {
-    console.log('검색어', searchKeyword);
+  const resetKeyword = useCallback(() => {
+    console.log('reset');
+    setSearchKeyword('');
   }, [searchKeyword]);
+
+  const [searchStore, setSearchStore] = useState([]);
+  const [recentSearchKeyword, setRecentSearchKeyword] = useState(recentSearch);
+
+  // 검색 요청
+  const searchRequestHandler = useCallback(async () => {
+    if (user) {
+      setSearchStore(await getSearchStoreAPI(user, searchKeyword));
+    } else {
+      setSearchStore(await getSearchStoreAPI(undefined, searchKeyword));
+    }
+  }, [searchKeyword, user]);
+
+  // 검색어 삭제 **수정**
+  const deleteSearchKeyword = useCallback(
+    async (item: string) => {
+      if (user) {
+        await DeleteRecentKeywordAPI(user, item);
+        setRecentSearchKeyword(await getRecentKeywordAPI(user));
+      }
+    },
+    [recentSearchKeyword]
+  );
+
   return (
     <Layout>
       <ContentsLayout>
@@ -162,8 +252,21 @@ const SearchStore = () => {
               type='text'
               value={searchKeyword}
               onChange={onChangeHandler}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
               placeholder='카페 이름을 검색해보세요.'
             />
+            {
+              <div className='remove-icon'>
+                <XSVG
+                  width={16}
+                  height={16}
+                  alt={'remove'}
+                  color={'#fff'}
+                  onClick={resetKeyword}
+                />
+              </div>
+            }
             <div>
               <SearchSVG
                 width={16}
@@ -180,7 +283,7 @@ const SearchStore = () => {
           <RecentSerach>
             <div className='title'>최근 검색어</div>
             <ScrollContainer className='item-wrapper'>
-              {recentSearch.map((item, i) => (
+              {recentSearchKeyword?.map((item, i) => (
                 <div
                   key={i}
                   className='item'
@@ -189,19 +292,43 @@ const SearchStore = () => {
                   }}
                 >
                   {item}
-                  <XSVG width={24} height={24} alt={'x'} color={'#636363'} />
+                  <XSVG
+                    width={24}
+                    height={24}
+                    alt={'x'}
+                    color={'#636363'}
+                    onClick={() => {
+                      deleteSearchKeyword(item);
+                    }}
+                  />
                 </div>
               ))}
             </ScrollContainer>
           </RecentSerach>
-          <div>
-            <HorizontalCard onClick={onClickStore} />
-          </div>
+          <SearchStoreWrapper>
+            <div className='title'>검색 결과</div>
+            <div className='stores-wrapper'>
+              {searchStore.length !== 0 ? (
+                searchStore?.map((store, i) => (
+                  <HorizontalCard
+                    key={i}
+                    user={user}
+                    store={store}
+                    onClick={onClickStore}
+                  />
+                ))
+              ) : (
+                <div className='no-store-description'>
+                  <div className='title'>검색 결과가 없습니다.</div>
+                  <div className='content'>
+                    저희 서비스는 현재 연남동 일대 카페 100곳만 운영중이에요!
+                  </div>
+                </div>
+              )}
+            </div>
+          </SearchStoreWrapper>
         </PageWrapper>
       </ContentsLayout>
-      {/* {storeDetailModal && (
-        <StoreDetailModal name={selectStore} onClosed={onClosedModal} />
-      )} */}
       <Footer />
     </Layout>
   );
@@ -210,11 +337,22 @@ const SearchStore = () => {
 export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
 
-  console.log('search-store');
-  // 토큰이 있으면 페이지에 전달
+  let user = null;
+  if (cookie) {
+    user = getCookieValue(cookie, 'token');
+    console.log('home', user);
+  }
+
+  // 최근 검색 기록 api 요청
+  let recentSearch = [];
+
+  if (user) {
+    recentSearch = await getRecentKeywordAPI(user);
+  }
   return {
     props: {
-      cookie,
+      user,
+      recentSearch,
     },
   };
 };

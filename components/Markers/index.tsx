@@ -19,6 +19,7 @@ const Markers = () => {
   // const { data: current } = useSWR(CURRENT_STORE_KEY);
   // console.log('클릭한 매장 정보', current);
 
+  console.log(stores);
   if (!map || !stores) return null;
 
   return (
@@ -36,21 +37,21 @@ const Markers = () => {
           />
         );
       })}
-      {/* {
+      {
         // 클릭된 store정보가 있는 경우 마커가 최상단에 위치할 수 있도록
         currentstore && (
           <MarkerItem
             map={map}
-            coordinates={currentstore.coordinates}
+            coordinates={[currentstore.latitude, currentstore.longitude]}
             icon={generateStoreMarkerIcon(true)}
-            key={currentstore.nid}
+            key={currentstore.id}
             // onClick={() => {
             //   setCurrentStore(currentstore);
             // }}
             onClick={cleartCurrentStore}
           />
         )
-      } */}
+      }
     </div>
   );
 };

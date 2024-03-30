@@ -24,6 +24,8 @@ export type DetailStore = {
     acidity: string;
     price: number;
   };
+  latitude: string;
+  longitude: string;
   reviews: [{ [key: string]: any }];
   hasLike: boolean;
 };

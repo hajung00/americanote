@@ -14,6 +14,11 @@ import ScentTag from '../ScentTag';
 import ReviewContent from '../ReviewContent';
 import { getStoreDetailAPI, postPreferStoreAPI } from '../../api/store';
 import { DetailStore } from '../../types/store';
+import InduceLoginModal from '../InduceLoginModal';
+import useCurrentStore, {
+  CURRENT_STORE_KEY,
+} from '../../hooks/useCurrentStore';
+import useSWR from 'swr';
 
 const StoreDetailModalStyle = styled.div`
   //   height: calc(100vh - 283px);
@@ -255,13 +260,21 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
   }, []);
 
   const [storeInfo, setStoreInfo] = useState<DetailStore>();
+  const { data: current } = useSWR(CURRENT_STORE_KEY);
 
   const getStoreDetail = useCallback(
     async (id: number) => {
-      setStoreInfo(await getStoreDetailAPI(user, id));
+      console.log('dd');
+      setStoreInfo(await getStoreDetailAPI(undefined, id));
     },
-    [id]
+    [id, current]
   );
+
+  const [induceLoginModal, setInduceLoginModal] = useState(false);
+
+  const induceLoginModalHandler = useCallback(() => {
+    setInduceLoginModal((prev) => !prev);
+  }, []);
 
   const onClickPreferStore = useCallback(async () => {
     if (user) {
@@ -272,7 +285,7 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
     }
     if (!user) {
       console.log('유저 없음');
-      // 로그인 유도 모달 생성 후 띄우기
+      induceLoginModalHandler();
     }
   }, []);
 
@@ -280,74 +293,100 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
     if (id) getStoreDetail(id);
   }, [id]);
 
+  const router = useRouter();
+  const { setCurrentStore } = useCurrentStore();
+  const goToMap = useCallback(() => {
+    console.log(storeInfo);
+    storeInfo && setCurrentStore(storeInfo);
+    onClosed();
+    router.push(
+      `/search/?zoom=15&lat=${storeInfo?.latitude}&lng=${storeInfo?.longitude}`
+    );
+  }, [storeInfo]);
+
   const pathname = useRouter().pathname;
 
   return (
-    <ModalLayout onClosed={onClosed}>
-      <StoreDetailModalStyle onClick={stopPropagation}>
-        <ImgWrapper src={`${storeInfo ? storeInfo?.imageUrl : ''}`}>
-          <div className='img' />
-          <Close width={24} height={24} onClick={onClosed} />
-        </ImgWrapper>
-        <InfoWrapper>
-          <div className='store-header'>
-            <div className='store-name'>{storeInfo?.cafeName}</div>
-            <div className='store-star'>
-              <Star width={12} height={12} alt={'star'} color={'#FFBD31'} />
-              {storeInfo?.avgStar}
-            </div>
-          </div>
-          <TagWrapper>
-            <div className='scent'>
-              {storeInfo?.coffeeDetail.flavours.map((scent, i) => (
-                <ScentTag key={i} title={scent} />
-              ))}
-            </div>
-            <div className='strength'>
-              <div className='tag strength'>
-                <Beans width={18} height={18} alt={'beans'} color={`#5B4132`} />
-                강도 {storeInfo?.coffeeDetail.intensity}
-              </div>
-              <div className='tag acidity'>
-                <Beans width={18} height={18} alt={'beans'} color={`#8D6949`} />
-                산미 {storeInfo?.coffeeDetail.acidity}
+    <>
+      <ModalLayout onClosed={onClosed}>
+        <StoreDetailModalStyle onClick={stopPropagation}>
+          <ImgWrapper src={`${storeInfo ? storeInfo?.imageUrl : ''}`}>
+            <div className='img' />
+            <Close width={24} height={24} onClick={onClosed} />
+          </ImgWrapper>
+          <InfoWrapper>
+            <div className='store-header'>
+              <div className='store-name'>{storeInfo?.cafeName}</div>
+              <div className='store-star'>
+                <Star width={12} height={12} alt={'star'} color={'#FFBD31'} />
+                {storeInfo?.avgStar}
               </div>
             </div>
-          </TagWrapper>
-          <MenuWrapper>
-            <div className='title'>메뉴</div>
-            <div className='menu-wrapper'>
-              <div className='menu-name'>{storeInfo?.coffeeDetail.name}</div>
-              <div className='menu-price'>
-                {storeInfo?.coffeeDetail.price}원
+            <TagWrapper>
+              <div className='scent'>
+                {storeInfo?.coffeeDetail.flavours.map((scent, i) => (
+                  <ScentTag key={i} title={scent} />
+                ))}
               </div>
-            </div>
-          </MenuWrapper>
-          <ReviewWrapper>
-            <div className='title'>리뷰</div>
-            <div className='review-container'>
-              {storeInfo?.reviews.map((review, i) => (
-                <ReviewContent key={i} review={review} />
-              ))}
-            </div>
-          </ReviewWrapper>
-          <ButtonWrapper
-            type={`${pathname === '/search' ? 'search' : 'normal'}`}
-          >
-            <button onClick={onClickPreferStore}>
-              <Favorite
-                width={20}
-                height={18}
-                alt={'favorite'}
-                color={`${storeInfo?.hasLike ? '#EE5329' : '#EDEDED'}`}
-              />
-              좋아요
-            </button>
-            <button>지도로 이동하기</button>
-          </ButtonWrapper>
-        </InfoWrapper>
-      </StoreDetailModalStyle>
-    </ModalLayout>
+              <div className='strength'>
+                <div className='tag strength'>
+                  <Beans
+                    width={18}
+                    height={18}
+                    alt={'beans'}
+                    color={`#5B4132`}
+                  />
+                  강도 {storeInfo?.coffeeDetail.intensity}
+                </div>
+                <div className='tag acidity'>
+                  <Beans
+                    width={18}
+                    height={18}
+                    alt={'beans'}
+                    color={`#8D6949`}
+                  />
+                  산미 {storeInfo?.coffeeDetail.acidity}
+                </div>
+              </div>
+            </TagWrapper>
+            <MenuWrapper>
+              <div className='title'>메뉴</div>
+              <div className='menu-wrapper'>
+                <div className='menu-name'>{storeInfo?.coffeeDetail.name}</div>
+                <div className='menu-price'>
+                  {storeInfo?.coffeeDetail.price}원
+                </div>
+              </div>
+            </MenuWrapper>
+            <ReviewWrapper>
+              <div className='title'>리뷰</div>
+              <div className='review-container'>
+                {storeInfo?.reviews.map((review, i) => (
+                  <ReviewContent key={i} review={review} />
+                ))}
+              </div>
+            </ReviewWrapper>
+            <ButtonWrapper
+              type={`${pathname === '/search' ? 'normal' : 'normal'}`}
+            >
+              <button onClick={onClickPreferStore}>
+                <Favorite
+                  width={20}
+                  height={18}
+                  alt={'favorite'}
+                  color={`${storeInfo?.hasLike ? '#EE5329' : '#EDEDED'}`}
+                />
+                좋아요
+              </button>
+              <button onClick={goToMap}>지도로 이동하기</button>
+            </ButtonWrapper>
+          </InfoWrapper>
+        </StoreDetailModalStyle>
+      </ModalLayout>
+      {induceLoginModal && (
+        <InduceLoginModal onClosed={induceLoginModalHandler} />
+      )}
+    </>
   );
 };
 

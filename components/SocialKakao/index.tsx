@@ -22,10 +22,12 @@ interface Props {
 const SocialKakao = ({ setTasteRgModal }: Props) => {
   const kakaoClientId = 'c1f31e371b5892bd16b99aaca06afd70';
   const kakaoOnSuccess = async (data: any) => {
-    const jwtToken = await loginAPI(data.response.access_token);
+    const [jwtToken, isTaste] = await loginAPI(data.response.access_token);
     if (jwtToken!) {
       Cookies.set('token', jwtToken, { expires: 14 }); // 만료 날짜를 30일로 설정
-      setTasteRgModal(true);
+      if (!isTaste) {
+        setTasteRgModal(true);
+      }
     }
   };
   const kakaoOnFailure = (error: any) => {

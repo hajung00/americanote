@@ -113,59 +113,59 @@ const FilterModal = ({ onClosed, selected, handleSaveFilter }: Props) => {
 
   const scent = [
     {
-      name: '카라멜향',
+      name: '카라멜',
       background: '#F3D3A3',
       color: '#735C38',
     },
     {
-      name: '초콜릿향',
+      name: '초콜릿',
       background: '#D6A298',
       color: '#592015',
     },
     {
-      name: '와인향',
+      name: '와인',
       background: '#D6B1E3',
       color: '#6F4B7D',
     },
     {
-      name: '과일향',
+      name: '과일',
       background: '#FFDD86',
       color: '#A87812',
     },
     {
-      name: '스모키향',
+      name: '스모키',
       background: '#FF9375',
       color: '#8C3219',
     },
     {
-      name: '허브향',
+      name: '허브',
       background: '#C1D49E',
       color: '#697553',
     },
     {
-      name: '맥아향',
+      name: '맥아',
       background: '#A6B9CF',
       color: '#194A86',
     },
     {
-      name: '견과류향',
+      name: '견과류',
       background: '#CDA88D',
       color: '#3E2410',
     },
     {
-      name: '꽃향',
+      name: '꽃',
       background: '#F0C0DD',
       color: '#AE3B81',
     },
     {
-      name: '향신료향',
+      name: '향신료',
       background: '#F09FA4',
       color: '#821C22',
     },
   ];
-  const price = ['5000원 미만', '5000원', '5000원 초과'];
-  const strength = ['강도 약함', '강도 중간', '강도 강함'];
-  const acidity = ['산미 약함', '산미 중간', '산미 강함'];
+  const price = ['<', '=', '>'];
+  const strength = ['약함', '중간', '강함'];
+  const acidity = ['약함', '중간', '강함'];
 
   const [selectPrice, setSelectPrice] = useState<string[]>([]);
   const [selectScent, setSelectScent] = useState<string[]>([]);
@@ -263,7 +263,11 @@ const FilterModal = ({ onClosed, selected, handleSaveFilter }: Props) => {
                   handleSelectPrice(item);
                 }}
               >
-                {item}
+                {item === '<'
+                  ? '5000원 미만'
+                  : item === '='
+                  ? '5000원'
+                  : '5000원 초과'}
               </TagItem>
             ))}
           </div>
@@ -288,7 +292,7 @@ const FilterModal = ({ onClosed, selected, handleSaveFilter }: Props) => {
                   handleSelectScent(item.name);
                 }}
               >
-                {item.name}
+                {item.name}향
               </TagItem>
             ))}
           </div>
@@ -317,7 +321,7 @@ const FilterModal = ({ onClosed, selected, handleSaveFilter }: Props) => {
                     selectStrength.includes(item) ? `#5B4132` : '#a5a5a5'
                   }`}
                 />
-                {item}
+                강도 {item}
               </TagItem>
             ))}
           </div>
@@ -344,7 +348,7 @@ const FilterModal = ({ onClosed, selected, handleSaveFilter }: Props) => {
                     selectAcidty.includes(item) ? `#8D6949` : '#a5a5a5'
                   }`}
                 />
-                {item}
+                산미 {item}
               </TagItem>
             ))}
           </div>

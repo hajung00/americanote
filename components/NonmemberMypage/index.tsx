@@ -83,10 +83,10 @@ const NonMember = ({ setTasteRgModal }: Props) => {
       </div>
       <ButtonWrapper>
         <SocialKakao setTasteRgModal={setTasteRgModal} />
-        <button className='naver'>
+        {/* <button className='naver'>
           <NaverSVG width={16} height={16} alt={'naver'} />
           네이버 로그인
-        </button>
+        </button> */}
       </ButtonWrapper>
     </MypageWrapper>
   );

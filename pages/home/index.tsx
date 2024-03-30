@@ -19,6 +19,8 @@ import Cookies from 'js-cookie';
 import { getCookieValue } from '../../func/getCookieValue';
 import { DetailStore, MyTasteStore } from '../../types/store';
 import { getMyTasteStoreAPI } from '../../api/store';
+import { getMyProfileAPI } from '../../api/user';
+import { UserInfo } from '../../types/user';
 
 export const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -93,6 +95,7 @@ export const VerticalCardWarpper = styled.div`
 
 interface Props {
   user: string;
+  myInfo: UserInfo;
   myTasteStores?: MyTasteStore[];
   photoStores: DetailStore[];
   aloneStores: DetailStore[];
@@ -101,6 +104,7 @@ interface Props {
 
 const Home = ({
   user,
+  myInfo,
   myTasteStores,
   photoStores,
   aloneStores,
@@ -140,7 +144,7 @@ const Home = ({
             {user && myTasteStores ? (
               <>
                 <PageTitle after={'285px'} left={'268px'}>
-                  닉네임님의 취향에 맞는 카페
+                  {myInfo.nickname}님의 취향에 맞는 카페
                 </PageTitle>
                 <VerticalCardWarpper>
                   <VerticalCard stores={myTasteStores} onClick={onClickStore} />
@@ -211,8 +215,11 @@ const Home = ({
 
 export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  let myTasteStores = null;
+
   let user = null;
+  let myTasteStores = null;
+  let myInfo = null;
+
   if (cookie) {
     user = getCookieValue(cookie, 'token');
     console.log('home', user);
@@ -221,6 +228,7 @@ export const getServerSideProps = async (context: any) => {
   // 내 취향에 맞는 카페 정보 api
   if (user) {
     myTasteStores = await getMyTasteStoreAPI(user);
+    myInfo = await getMyProfileAPI(user);
   }
   const photoStores = (await import('../../public/phote_stores.json')).default;
   const aloneStores = (await import('../../public/alone_stores.json')).default;
@@ -233,6 +241,7 @@ export const getServerSideProps = async (context: any) => {
   return {
     props: {
       user,
+      myInfo,
       myTasteStores,
       photoStores,
       aloneStores,

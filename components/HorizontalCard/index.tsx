@@ -94,7 +94,7 @@ const TagWrapper = styled.div`
     align-items: center;
     gap: 4px;
     font-family: 'Pretendard';
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
   }
   .strength {

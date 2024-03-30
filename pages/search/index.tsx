@@ -25,9 +25,10 @@ import ArrowSVG from '../../public/assets/arrow_down.svg';
 import FilterSVG from '../../public/assets/filter.svg';
 import XSVG from '../../public/assets/x.svg';
 import useStores from '../../hooks/useStores';
-import { getAllStoreAPI } from '../../api/store';
+import { getAllStoreAPI, getFilteredStoreAPI } from '../../api/store';
 import { Store } from '../../types/store';
 import { getCookieValue } from '../../func/getCookieValue';
+import useDidMountEffect from '../../hooks/useDidMountEffect';
 
 const PageWrapper = styled.div`
   height: calc(100vh - 80px - 78px);
@@ -154,7 +155,7 @@ const Search = ({ user, stores }: Props) => {
     setStoreDetailModal((prev) => !prev);
   }, []);
 
-  useEffect(() => {
+  useDidMountEffect(() => {
     if (current) {
       setStoreDetailModal((prev) => !prev);
     }
@@ -180,15 +181,22 @@ const Search = ({ user, stores }: Props) => {
     []
   );
 
-  useEffect(() => {
-    // 필터에 해당하는 매장 다시 요청
-    console.log(
-      '필터 바뀔 때마다 해당하는 매장 요청',
-      price,
-      scent,
-      strength,
-      acidity
-    );
+  useDidMountEffect(() => {
+    // 새롭게 얻은 매장으로 지도 초기화 **수정**
+
+    const fetchData = async () => {
+      console.log(
+        '필터 바뀔 때마다 해당하는 매장 요청',
+        price,
+        scent,
+        strength,
+        acidity
+      );
+      const result = await getFilteredStoreAPI(price, scent, strength, acidity);
+      initializeStores(result);
+    };
+
+    fetchData();
   }, [price, scent, strength, acidity]);
 
   return (
@@ -319,7 +327,11 @@ const Search = ({ user, stores }: Props) => {
             </ScrollContainer>
             <div
               className={`filter-icon ${
-                (price || scent.length !== 0 || strength || acidity) && 'color'
+                (price.length !== 0 ||
+                  scent.length !== 0 ||
+                  strength.length !== 0 ||
+                  acidity.length !== 0) &&
+                'color'
               }`}
               onClick={filterModalHandler}
             >
@@ -328,7 +340,10 @@ const Search = ({ user, stores }: Props) => {
                 height={24}
                 alt={'filter'}
                 color={`${
-                  price || scent.length !== 0 || strength || acidity
+                  price.length !== 0 ||
+                  scent.length !== 0 ||
+                  strength.length !== 0 ||
+                  acidity.length !== 0
                     ? '#5D4C21'
                     : '#CCCCCC'
                 }`}
@@ -339,7 +354,7 @@ const Search = ({ user, stores }: Props) => {
       </ContentsLayout>
       {storeDetailModal && (
         <StoreDetailModal
-          id={current.id}
+          id={current.nid}
           user={user}
           onClosed={onClosedDetailModal}
         />
@@ -364,6 +379,7 @@ const Search = ({ user, stores }: Props) => {
 export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   const stores = await getAllStoreAPI();
+
   const user = getCookieValue(cookie, 'token');
   console.log('search');
   // 토큰이 있으면 페이지에 전달

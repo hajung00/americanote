@@ -7,6 +7,7 @@ const ModalLayoutStyle = styled.div`
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
+  z-index: 99;
 `;
 
 interface Props {
