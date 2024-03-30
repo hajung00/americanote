@@ -71,7 +71,6 @@ const HeaderContent = styled.div`
     line-height: 26px;
 
     & > img {
-      width: 100%;
       height: 100%;
     }
   }

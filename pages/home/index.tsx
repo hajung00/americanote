@@ -80,7 +80,6 @@ export const HeaderContent = styled.div`
     font-weight: 600;
     line-height: 26px;
     & > img {
-      width: 100%;
       height: 100%;
     }
   }

@@ -72,7 +72,6 @@ const SplashStyle = styled.div<Props>`
       line-height: 26px;
 
       & > img {
-        width: 100%;
         height: 100%;
       }
     }
@@ -101,26 +100,26 @@ const Splash = () => {
 
     const onboardingVisited = Cookies.get('onboarding_visited');
 
-    // if (opacity > 96) {
-    //   const timer1 = setTimeout(() => {
-    //     console.log('dd');
-    //     setOpacity(opacity - 1);
-    //     clearTimeout(timer1);
-    //   }, 100);
-    // } else if (opacity > 5) {
-    //   const timer2 = setTimeout(() => {
-    //     setOpacity(opacity - 8);
-    //     clearTimeout(timer2);
-    //   }, 70);
-    // }
+    if (opacity > 96) {
+      const timer1 = setTimeout(() => {
+        console.log('dd');
+        setOpacity(opacity - 1);
+        clearTimeout(timer1);
+      }, 100);
+    } else if (opacity > 5) {
+      const timer2 = setTimeout(() => {
+        setOpacity(opacity - 8);
+        clearTimeout(timer2);
+      }, 70);
+    }
 
-    // if (opacity == 0) {
-    //   if (onboardingVisited) {
-    //     router.push('/home');
-    //   } else {
-    //     router.push('/onboarding');
-    //   }
-    // }
+    if (opacity == 0) {
+      if (onboardingVisited) {
+        router.push('/home');
+      } else {
+        router.push('/onboarding');
+      }
+    }
     // return () => clearTimeout(timer);
   }, [opacity]);
 
