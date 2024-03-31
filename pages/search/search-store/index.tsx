@@ -78,12 +78,12 @@ const Header = styled.div`
 `;
 
 const PageWrapper = styled.div`
-  height: calc(100vh - 85px - 78px);
-  overflow-y: auto;
-  overflow-x: hidden;
   position: relative;
   padding: 0 16px;
   padding-top: 23px;
+  padding-bottom: 78px;
+  background: #f5efea;
+
   &::-webkit-scrollbar {
     width: 5px;
   }
@@ -135,7 +135,6 @@ const RecentSerach = styled.div`
 
 const SearchStoreWrapper = styled.div`
   padding-top: 19px;
-
   .title {
     color: var(--Brand-Color, #2c2310);
     font-family: 'Pretendard';

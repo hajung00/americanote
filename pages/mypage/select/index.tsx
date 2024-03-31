@@ -17,8 +17,7 @@ import { getMyProfileAPI, postMyTasteAPI } from '../../../api/user';
 import { UserInfo } from '../../../types/user';
 
 export const PageWrapper = styled.div`
-  margin-bottom: 108px;
-  height: fit-content;
+  height: 97vh;
 
   &::-webkit-scrollbar {
     width: 5px;

@@ -14,7 +14,7 @@ const MypageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: calc(100vh - 78px);
 
   .description {
     font-family: 'Pretendard';

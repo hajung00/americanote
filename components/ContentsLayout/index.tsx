@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const ContentsLayoutStyle = styled.div`
   width: 100%;
-  height: 100vh;
+  height: -webkit-fill-available;
   background: #f5efea;
-  overflow: auto;
+  // overflow: auto;
   max-width: 475px;
   &::-webkit-scrollbar {
     width: 5px;
