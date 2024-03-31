@@ -21,31 +21,15 @@ import useCurrentStore, {
 import useSWR from 'swr';
 
 const StoreDetailModalStyle = styled.div`
-  //   height: calc(100vh - 283px);
-  //   height: calc(100vh - 74px);
-
-  //   min-height: calc(100vh - 74px);
   background: #f5efea;
   position: fixed;
   width: 100%;
-  bottom: 0;
   z-index: 99;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 475px;
   max-height: 80vh;
-
-  //   &::before {
-  //     display: flex;
-  //     content: '';
-  //     width: 70px;
-  //     height: 4px;
-  //     background: #fff;
-  //     margin: 0 auto;
-  //     transform: translateY(-14px);
-  //     border-radius: 100px;
-  //     cursor: pointer;
-  //   }
+  bottom: 0;
 `;
 
 const ImgWrapper = styled.div<{ src: string }>`
@@ -261,7 +245,6 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
   const pathname = useRouter().pathname;
   const [storeInfo, setStoreInfo] = useState<DetailStore>();
   const [induceLoginModal, setInduceLoginModal] = useState(false);
-
   const stopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
   }, []);
@@ -308,7 +291,10 @@ const StoreDetailModal = ({ id, user, onClosed }: Props) => {
   return (
     <>
       <ModalLayout onClosed={onClosed}>
-        <StoreDetailModalStyle onClick={stopPropagation}>
+        <StoreDetailModalStyle
+          className='animate__fadeInUp animate__animated'
+          onClick={stopPropagation}
+        >
           <ImgWrapper src={`${storeInfo ? storeInfo?.imageUrl : ''}`}>
             <div className='img' />
             <Close width={24} height={24} onClick={onClosed} />

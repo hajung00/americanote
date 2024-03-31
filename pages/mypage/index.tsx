@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
@@ -20,6 +21,7 @@ import { getMyProfileAPI } from '../../api/user';
 import { UserInfo } from '../../types/user';
 import ProFile from '../../public/assets/profile.svg';
 import { logoutAPI } from '../../api/accout';
+import MyNote from '../../public/assets/mynote.png';
 
 export const MypageWrapper = styled.div`
   .sub-title {
@@ -30,6 +32,11 @@ export const MypageWrapper = styled.div`
   }
   .logout {
     cursor: pointer;
+  }
+  .title {
+    & > img {
+      height: 100%;
+    }
   }
 `;
 
@@ -191,7 +198,7 @@ const Mypage = ({ user, userInfo }: Props) => {
           <MypageWrapper>
             <Header>
               <div className='title' style={{ fontFamily: 'Montserrat' }}>
-                My note.
+                <Image src={MyNote} width={115} height={32} alt={'logo'} />
               </div>
               <div className='logout' onClick={handleLogout}>
                 로그아웃
@@ -281,14 +288,19 @@ const Mypage = ({ user, userInfo }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  const user = getCookieValue(cookie, 'token');
 
+  let user = null;
   let userInfo = null;
+
+  if (cookie) {
+    user = getCookieValue(cookie, 'token');
+    console.log('mypage', user);
+  }
+
   if (user) {
     userInfo = await getMyProfileAPI(user);
   }
 
-  console.log('mypage', user);
   // 유저 정보 요청 api 작성
 
   return {

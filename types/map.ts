@@ -4,7 +4,8 @@ export type NaverMap = naver.maps.Map; // 지도
 
 //마커의 icon
 export type ImageIcon = {
-  url: string;
+  // url: string;
+  content: string;
   size: naver.maps.Size;
   origin: naver.maps.Point;
   scaledSize?: naver.maps.Size;

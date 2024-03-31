@@ -385,8 +385,13 @@ export const getServerSideProps = async (context: any) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   const stores = await getAllStoreAPI();
 
-  const user = getCookieValue(cookie, 'token');
-  console.log('search');
+  let user = null;
+
+  if (cookie) {
+    user = getCookieValue(cookie, 'token');
+    console.log('search', user);
+  }
+
   // 토큰이 있으면 페이지에 전달
   return {
     props: {
