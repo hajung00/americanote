@@ -17,8 +17,10 @@ const FilterWrapper = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 475px;
-  // max-height: 50vh;
+  max-height: 76vh;
   padding: 16px;
+  overflow: auto;
+  padding-bottom: 100px;
 
   .modal-header {
     padding-top: 4px;

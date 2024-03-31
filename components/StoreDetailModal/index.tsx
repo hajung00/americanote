@@ -28,7 +28,7 @@ const StoreDetailModalStyle = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 475px;
-  max-height: 80vh;
+  max-height: 76vh;
   bottom: 0;
 `;
 
@@ -59,7 +59,7 @@ const ImgWrapper = styled.div<{ src: string }>`
 const InfoWrapper = styled.div`
   padding: 16px;
   overflow: auto;
-  height: calc(80vh - 178px);
+  height: calc(76vh - 178px);
 
   &::-webkit-scrollbar {
     width: 5px;
