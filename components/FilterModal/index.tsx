@@ -17,7 +17,7 @@ const FilterWrapper = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 475px;
-  max-height: 76vh;
+  max-height: 80vh;
   padding: 16px;
   overflow: auto;
   padding-bottom: 100px;
