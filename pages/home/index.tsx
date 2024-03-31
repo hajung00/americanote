@@ -135,6 +135,14 @@ const Home = ({
   useEffect(() => {
     cleartCurrentStore();
   }, []);
+
+  useEffect(() => {
+    if (storeDetailModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [storeDetailModal]);
   return (
     <Layout>
       <ContentsLayout>

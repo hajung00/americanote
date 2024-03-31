@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
@@ -133,6 +133,14 @@ const Like = ({ user, preferStores }: Props) => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (storeDetailModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [storeDetailModal]);
 
   return (
     <Layout>

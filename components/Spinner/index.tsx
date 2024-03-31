@@ -13,11 +13,16 @@ const SpinnerContainer = styled.div`
   position: absolute;
   z-index: 999;
   align-items: center;
-  width: 100%;
+  width: 475px;
   height: 100vh;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   padding-bottom: 78px;
+
+  position: fixed; /* 화면의 고정 위치 */
+  top: 50%; /* 수직 방향 중앙 */
+  left: 50%; /* 수평 방향 중앙 */
+  transform: translate(-50%, -50%);
 `;
 
 const SpinnerStyle = styled.div`

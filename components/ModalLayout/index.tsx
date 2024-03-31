@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ModalLayoutStyle = styled.div`
-  width: 100%;
+  width: 475px;
   height: -webkit-fill-available;
   background: rgba(0, 0, 0, 0.5);
-  position: absolute;
+  position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 999;
 `;
 
 interface Props {

@@ -13,7 +13,7 @@ const FilterWrapper = styled.div`
   position: fixed;
   width: 100%;
   bottom: 0;
-  z-index: 99;
+  z-index: 999;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 475px;

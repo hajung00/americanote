@@ -16,7 +16,7 @@ const FooterStyle = styled.footer`
   bottom: 0;
   width: 100%;
   max-width: 475px;
-  z-index: 100;
+  z-index: 1000;
   & > ul {
     height: 100%;
     list-style: none;
