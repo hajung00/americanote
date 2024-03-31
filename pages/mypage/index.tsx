@@ -41,8 +41,8 @@ export const MypageWrapper = styled.div`
 `;
 
 export const PageWrapper = styled.div`
-  // height: calc(100vh - 78px);
   margin-bottom: 115px;
+  height: fit-content;
 
   &::-webkit-scrollbar {
     width: 5px;

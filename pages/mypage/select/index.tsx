@@ -18,6 +18,7 @@ import { UserInfo } from '../../../types/user';
 
 export const PageWrapper = styled.div`
   margin-bottom: 108px;
+  height: fit-content;
 
   &::-webkit-scrollbar {
     width: 5px;

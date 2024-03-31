@@ -21,7 +21,7 @@ import { getPreferStoreAPI, postPreferStoreAPI } from '../../../api/store';
 import { preferStore } from '../../../types/store';
 
 const PageWrapper = styled.div`
-  // height: calc(100vh - 78px);
+  height: fit-content;
   margin-bottom: 105px;
 
   &::-webkit-scrollbar {
