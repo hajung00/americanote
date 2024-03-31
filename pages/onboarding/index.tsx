@@ -33,8 +33,8 @@ const SwiperCustom = styled(Swiper)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 40%;
+    justify-content: space-evenly;
+    padding-top: 17%;
     overflow: auto;
     &::-webkit-scrollbar {
       width: 5px;
@@ -51,7 +51,7 @@ const SwiperCustom = styled(Swiper)`
   }
 
   .swiper-pagination-horizontal {
-    top: 8%;
+    top: 4%;
     height: 30px;
   }
   .swiper-pagination-bullet-active {
@@ -65,11 +65,12 @@ const SwiperCustom = styled(Swiper)`
 
   .img-wrapper {
     width: 80%;
-    height: 100%;
-    margin-top: 47px;
+    height: 86%;
+    margin-top: 6%;
 
     & > img {
-      width: 100%;
+      height: 100%;
+      width: 83%;
     }
   }
 `;
