@@ -105,7 +105,7 @@ const Splash = () => {
         console.log('dd', opacity);
         setOpacity(opacity - 1);
         clearTimeout(timer1);
-      }, 130);
+      }, 140);
     } else if (opacity > 5) {
       const timer2 = setTimeout(() => {
         console.log('ff', opacity);
