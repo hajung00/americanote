@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const ModalLayoutStyle = styled.div`
   width: 100%;
-  height: 100vh;
+  height: -webkit-fill-available;
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
