@@ -191,6 +191,7 @@ const ButtonWrapper = styled.div<{ type: string }>`
   height: 58px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 78px;
 
   & > button {
     height: 100%;
