@@ -6,6 +6,7 @@ const ContentsLayoutStyle = styled.div`
   height: 100vh;
   background: #f5efea;
   overflow: auto;
+  max-width: 475px;
   &::-webkit-scrollbar {
     width: 5px;
   }

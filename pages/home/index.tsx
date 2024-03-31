@@ -91,6 +91,7 @@ export const HeaderContent = styled.div`
 export const Section = styled.div`
   margin-bottom: 40px;
   min-height: 323px;
+  max-width: 475px;
 `;
 export const VerticalCardWarpper = styled.div`
   padding: 0 16px;

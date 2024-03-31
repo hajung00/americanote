@@ -6,6 +6,8 @@ export const InduceLoginStyle = styled.div`
   padding: 0 16px;
   position: relative;
   min-height: 323px;
+  max-width: 475px;
+  overflow: hidden;
 `;
 
 export const LoginDescription = styled.div`
@@ -47,7 +49,7 @@ export const SkeletonScreen = styled.div`
   display: flex;
   gap: 20px;
   animation: autoPlay 18s linear infinite;
-
+  max-width: 475px;
   @keyframes autoPlay {
     0% {
       transition: translateX(0);
