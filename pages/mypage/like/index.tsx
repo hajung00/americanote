@@ -22,7 +22,7 @@ import { preferStore } from '../../../types/store';
 
 const PageWrapper = styled.div`
   padding-bottom: 80px;
-
+  background: #f5efea;
   &::-webkit-scrollbar {
     width: 5px;
   }
