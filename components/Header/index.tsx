@@ -12,7 +12,7 @@ const HeaderStyle = styled.div`
   -webkit-box-pack: justify;
   position: sticky;
   top: 0px;
-  z-index: 9999;
+  z-index: 100;
   background: #f5efea;
   .title {
     color: var(--Brand-Color, #2c2310);
