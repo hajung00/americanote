@@ -8,6 +8,16 @@ body {
   margin: 0;
 }
 
+#__next {
+  width: 100%;
+  max-width: 475px;
+  margin: auto;
+  min-height: 100vh;
+  max-height: fit-content;
+  background: #f5efea;
+  position: relative;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @font-face {
