@@ -100,7 +100,7 @@ const Splash = () => {
 
     const onboardingVisited = Cookies.get('onboarding_visited');
 
-    if (opacity > 96) {
+    if (opacity > 90) {
       const timer1 = setTimeout(() => {
         console.log('dd');
         setOpacity(opacity - 1);
@@ -110,7 +110,7 @@ const Splash = () => {
       const timer2 = setTimeout(() => {
         setOpacity(opacity - 8);
         clearTimeout(timer2);
-      }, 50);
+      }, 70);
     }
 
     if (opacity == 0) {
