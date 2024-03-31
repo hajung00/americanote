@@ -84,7 +84,7 @@ const SplashStyle = styled.div<Props>`
 
 const Splash = () => {
   const router = useRouter();
-  const [opacity, setOpacity] = useState(120);
+  const [opacity, setOpacity] = useState(105);
 
   useEffect(() => {
     // const timer = setTimeout(() => {
@@ -102,18 +102,19 @@ const Splash = () => {
 
     if (opacity > 90) {
       const timer1 = setTimeout(() => {
-        console.log('dd');
+        console.log('dd', opacity);
         setOpacity(opacity - 1);
         clearTimeout(timer1);
-      }, 100);
+      }, 200);
     } else if (opacity > 5) {
       const timer2 = setTimeout(() => {
+        console.log('ff', opacity);
         setOpacity(opacity - 8);
         clearTimeout(timer2);
       }, 70);
     }
 
-    if (opacity == 0) {
+    if (opacity == 10) {
       if (onboardingVisited) {
         router.push('/home');
       } else {
