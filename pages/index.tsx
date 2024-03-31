@@ -84,7 +84,7 @@ const SplashStyle = styled.div<Props>`
 
 const Splash = () => {
   const router = useRouter();
-  const [opacity, setOpacity] = useState(105);
+  const [opacity, setOpacity] = useState(135);
 
   useEffect(() => {
     // const timer = setTimeout(() => {
@@ -110,7 +110,7 @@ const Splash = () => {
       const timer2 = setTimeout(() => {
         setOpacity(opacity - 8);
         clearTimeout(timer2);
-      }, 70);
+      }, 50);
     }
 
     if (opacity == 0) {
