@@ -27,9 +27,7 @@ import { UserInfo } from '../../types/user';
 import useCurrentStore from '../../hooks/useCurrentStore';
 
 export const PageWrapper = styled.div`
-  height: calc(100vh - 80px - 78px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  margin-bottom: 100px;
 
   &::-webkit-scrollbar {
     width: 5px;

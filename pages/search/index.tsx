@@ -35,9 +35,9 @@ import { getCookieValue } from '../../func/getCookieValue';
 import useDidMountEffect from '../../hooks/useDidMountEffect';
 
 const PageWrapper = styled.div`
-  height: calc(100vh - 80px - 78px);
-  overflow-y: auto;
-  overflow-x: hidden;
+  // height: calc(100vh - 80px - 78px);
+  // overflow-y: auto;
+  // overflow-x: hidden;
   position: relative;
   &::-webkit-scrollbar {
     width: 5px;
@@ -82,7 +82,7 @@ const HeaderContent = styled.div`
 
 const FilterSection = styled.div`
   position: absolute;
-  top: 36px;
+  top: 16px;
   left: 0;
   display: flex;
   justify-content: space-between;
