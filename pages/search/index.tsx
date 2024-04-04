@@ -389,7 +389,7 @@ export const getServerSideProps = async (context: any) => {
 
   if (cookie) {
     user = getCookieValue(cookie, 'token');
-    console.log('search', user);
+    console.log('search', stores);
   }
 
   // 토큰이 있으면 페이지에 전달
