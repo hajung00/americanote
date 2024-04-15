@@ -71,36 +71,36 @@ $ npm run dev
 ### 1. 카카오 로그인
 |View|Function|
 |---|-----|
-|<img src="https://user-images.githubusercontent.com/66300154/219935431-f675b053-ba95-492a-ba7a-f1bdb36a762b.gif" width="450" height="280"/>|- **카카오 로그인** |
+|<img src="https://github.com/hajung00/americanote/assets/66300154/e1f485cb-d835-4824-984f-c2b179b54dde" width="250" height="420"/>|- **카카오 로그인** |
 
 ### 2. 나의 커피 취향 등록 및 취향에 맞는 카페 추천
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/219935462-97ee0ce1-e3dc-4c53-a986-e8a73812e523.gif" width="450" height="280"/>|- **내 취향 등록**</br></br>- **취향에 맞는 카페 추천**|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/c20d3b95-8690-4be1-bb33-cdde1bc87788" width="250" height="420"/>|- **내 취향 등록**</br></br>- **취향에 맞는 카페 추천**|
 
 
 ### 3. 다양한 테마의 카페 추천
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/219935488-9268b8f4-7a58-4e2f-9c2d-cd8efed07b01.gif" width="450" height="280"/>| - **다양한 테마의 카페 추천**</br></br> - **클릭한 카페 상세 모달**</br></br> - **좋아요 및 지도로 이동**|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/26593c41-208a-43d0-b60c-06eb55071c02" width="250" height="420"/>| - **다양한 테마의 카페 추천**</br></br> - **클릭한 카페 상세 모달**</br></br> - **좋아요 및 지도로 이동**|
 
 
 ### 4. 연남동 주변 카페 지도 표시
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/222093274-558e9b97-0a3a-4056-aa6e-910ea45a80b0.gif" width="450" height="280"/>|- **네이버 지도 API사용**</br></br> - **카페 아이콘으로 표시**|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/924cb4a5-f1cf-4711-9125-a5038cb7bf2e" width="250" height="420"/>|- **네이버 지도 API사용**</br></br> - **카페 아이콘으로 표시**|
 
 ### 5. 커피 가격, 향, 강도, 산미 필터링에 따른 카페 표시
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/222093274-558e9b97-0a3a-4056-aa6e-910ea45a80b0.gif" width="450" height="280"/>|- **필터에 따른 카페 필터링**|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/92195b63-efb8-4926-9f1b-0821bed21b84" width="250" height="420"/>|- **필터에 따른 카페 필터링**|
 
 ### 6. 카페 검색 
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/222093274-558e9b97-0a3a-4056-aa6e-910ea45a80b0.gif" width="450" height="280"/>|- **카페 검색**</br></br> - **최근 검색어 표시**</br></br> - **검색한 카페 클릭 시 지도로 이동**</br></br>|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/7b5ebda3-f157-4f2c-a297-5a2fdbd0f003" width="250" height="420"/>|- **카페 검색**</br></br> - **최근 검색어 표시**</br></br> - **검색한 카페 클릭 시 지도로 이동**</br></br>|
 
 ### 7. 카페 좋아요 
 |View|Function|
 |---|---|
-|<img src="https://user-images.githubusercontent.com/66300154/222093274-558e9b97-0a3a-4056-aa6e-910ea45a80b0.gif" width="450" height="280"/>|- **카페 좋아요**</br></br> - **카페 좋아요 취소**</br></br> - **좋아요한 카페 아이콘으로 표시**</br></br> - **좋아요한 카페 목록 확인**|
+|<img src="https://github.com/hajung00/americanote/assets/66300154/86917117-c812-4bd7-b704-c23c01ec7dfb" width="250" height="420"/>|- **카페 좋아요**</br></br> - **카페 좋아요 취소**</br></br> - **좋아요한 카페 아이콘으로 표시**</br></br> - **좋아요한 카페 목록 확인**|
