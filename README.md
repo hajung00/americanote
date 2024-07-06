@@ -56,9 +56,8 @@ $ npm run dev
 
 ## 🛠 Technology stack
 
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">  <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">  <img src="https://img.shields.io/badge/styled-components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">    <img src="https://img.shields.io/badge/redux-999999?style=for-the-badge&logo=redux&logoColor=white">  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> 
-
-<img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=Heroku&logoColor=white">
+<img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=react&logoColor=white">  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=react&logoColor=white">  <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">  <img src="https://img.shields.io/badge/styled-components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">    <img src="https://img.shields.io/badge/SWR-000000?style=for-the-badge&logo=redux&logoColor=white">  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white">  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Heroku&logoColor=white">
 
 <br />
 
