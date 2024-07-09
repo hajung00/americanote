@@ -1,10 +1,11 @@
-# 📌 Americanote
+# ☕ Americanote
+![image](https://github.com/hajung00/americanote/assets/66300154/aba9233f-4613-46a0-910d-96a3b3c4943c)
+🥈비사이드 온라인 해커톤 포텐데이 403에 참가하여 19팀 중 2등
 
 <br/> 
 
 ## 📑 Table Of Contents
 1.   👋🏻[ Introduce](#-introduce)<br/>
-2.   🚀[ Distribution Link](#-distribution-link)<br/>
 3.   🗓[ Develop Period](#-develop-period)<br/>
 4.   👪[ Team Composition](#-team-composition)  
 4.   🕶[ Preview](#-preview)<br/>
@@ -21,11 +22,6 @@
 개인 카페의 경우 직접 방문해야 어떤 원두를 사용하고 맛, 향, 산미, 강도는 어떤지 파악할 수 있습니다.
 취향에 맞는 카페를 찾아다니는 불편함을 해결하기 위해 연남동 주변 100개의 카페의 커피의 향, 강도, 산미를 기준으로 분류하여 사용자들이 편하게 확인할 수 있도록 하였습니다.
  
-<br />
-
-## 🚀 Distribution Link
-👉 [Americanote 사이트 바로가기](https://americanote.vercel.app/)
-
 <br />
 
 ## 🗓 Develop Period
